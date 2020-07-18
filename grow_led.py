@@ -21,14 +21,14 @@ if states['LED'] == "ON":
     ser.write(f"<LED,{0}\n>".encode('utf-8'))
     ser.flush()
     states['LED'] = "OFF"
-    logger.log_string('Turning OFF grow LED.')
+    logger.log_string('Turning OFF grow LED.', "ACTION")
 
 else:
     # Then turn it off
     ser.write(f"<LED,{255}\n>".encode('utf-8'))
     ser.flush()
     states['LED']= "ON"
-    logger.log_string('Turning ON grow LED.')
+    logger.log_string('Turning ON grow LED.', "ACTION")
 
 with open('.states.pickle', 'wb') as f:
     pickle.dump(states, f)
