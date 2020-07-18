@@ -3,7 +3,7 @@
 import cv2 as cv
 import numpy as np
 import RPi.GPIO as GPIO
-from configs import params
+from configuration.configs import params
 import imutils
 from imutils.video import WebcamVideoStream
 from motor import motor
@@ -232,10 +232,12 @@ class Agent:
         GPIO.output(self.LED,GPIO.LOW)
         cv.destroyAllWindows()
 
+
 def main(stdscr):
     teleop = KeyTeleop(TextWindow(stdscr))
     rp = Agent()
     rp.run(teleop)
+
 
 if __name__ == '__main__':
     curses.wrapper(main)
