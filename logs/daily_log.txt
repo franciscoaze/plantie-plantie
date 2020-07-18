@@ -1,3 +1,7 @@
 Hello
 Mon Jul 13 23:22:38 2020: Hello
 Sat Jul 18 20:59:59 2020: Test db [DB]
+Sat Jul 18 21:41:07 2020 [DB]: ['Alive']
+Sat Jul 18 21:42:04 2020 [DB]: Alive
+Sat Jul 18 21:42:21 2020 [DB]: Alive
+Sat Jul 18 21:42:47 2020 [DB]: Alive more sentences
