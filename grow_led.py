@@ -28,10 +28,11 @@ else:
     ser.write(f"<LED,{255}\n>".encode('utf-8'))
     ser.flush()
     states['LED']= "ON"
-    logger.log_string('Turning ON grow LED.', "ACTION")
+
 
 with open('.states.pickle', 'wb') as f:
     pickle.dump(states, f)
 print('\t|\n\tv')
 print(states)
 ser.close()
+logger.log_string('Turning ON grow LED.', "ACTION")
