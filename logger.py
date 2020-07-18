@@ -11,4 +11,4 @@ def log_string(input_string):
     success = insert_log(new_log)
     with open(LOG_FILE, 'a') as file:
         timestamp = time.asctime()
-        file.write(f'{timestamp}{msg_dict[success]: {input_string}\n')
+        file.write(f'{timestamp} {msg_dict[success]}: {input_string}\n')
