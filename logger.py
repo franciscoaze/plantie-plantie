@@ -10,7 +10,10 @@ msg_dict = {True: "[DB]", False: ""}
 def log_string(input_string, msg_type="SYSTEM INFO"):
     print(f"Logging {msg_type}: {input_string}")
     new_log = {"type": msg_type, "msg": input_string}
-    success = insert_log(new_log)
+    try:
+        success = insert_log(new_log)
+    except:
+        success = False
     with open(LOG_FILE, 'a') as file:
         timestamp = time.asctime()
         file.write(f'{timestamp} {msg_dict[success]}: {input_string}\n')
