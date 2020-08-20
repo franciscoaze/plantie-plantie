@@ -3,7 +3,6 @@ import os
 import time
 import pickle
 import logger
-from configuration.vars import LOG_FILE
 
 try:
     with open('.states.pickle', 'rb') as f:
