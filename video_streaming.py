@@ -25,18 +25,17 @@ time.sleep(2.0)
 
 @app.route("/")
 def index():
-	# return the rendered template
-	return render_template("index.html")
-
+    # return the rendered template
+    return render_template("index.html")
 
 def get_frames(frameCount):
-	# grab global references to the video stream, output frame, and
-	# lock variables
-	global vs, outputFrame, lock
-	# initialize the motion detector and the total number of frames
-	# read thus far
-	# md = SingleMotionDetector(accumWeight=0.1)
-	total = 0
+    # grab global references to the video stream, output frame, and
+    # lock variables
+    global vs, outputFrame, lock
+    # initialize the motion detector and the total number of frames
+    # read thus far
+    # md = SingleMotionDetector(accumWeight=0.1)
+    total = 0
     # loop over frames from the video stream
     while True:
     # read the next frame from the video stream, resize it,
