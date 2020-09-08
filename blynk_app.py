@@ -23,7 +23,7 @@ def my_write_handler(value):
         GPIO.output(17, GPIO.LOW)
 
 
-@blynk.VIRTUAL_READ(3)
+@blynk.VIRTUAL_READ(2)
 def my_read_handler():
     # Envia o valor da temperatura da CPU
     cpu = CPUTemperature()
