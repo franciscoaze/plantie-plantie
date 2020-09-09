@@ -19,7 +19,6 @@ lock = threading.Lock()
 app = Flask(__name__)
 # initialize the video stream and allow the camera sensor to
 # warmup
-# vs = VideoStream(usePiCamera=1).start()
 vs = WebcamVideoStream(src=-1).start()
 time.sleep(2.0)
 
@@ -34,9 +33,6 @@ def get_frames(frameCount):
     # grab global references to the video stream, output frame, and
     # lock variables
     global vs, outputFrame, lock
-    # initialize the motion detector and the total number of frames
-    # read thus far
-    # md = SingleMotionDetector(accumWeight=0.1)
     total = 0
     # loop over frames from the video stream
     while True:
@@ -44,8 +40,6 @@ def get_frames(frameCount):
         # convert the frame to grayscale, and blur it
         frame = vs.read()
         # frame = imutils.resize(frame, width=400)
-        gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-        # gray = cv2.GaussianBlur(gray, (7, 7), 0)
         # grab the current timestamp and draw it on the frame
         timestamp = datetime.datetime.now()
         cv2.putText(frame, timestamp.strftime(

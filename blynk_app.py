@@ -10,6 +10,9 @@ GPIO.setup(17, GPIO.OUT)
 # Inicializa Blynk
 blynk = BlynkLib.Blynk('83pa6ghaq1G40yxJrxqeOLAWFV9YTRN6')
 
+@blynk.handle_event("connect")
+def connect_handler():
+    print("Connected to device")
 
 # Registra os pinos virtuais
 @blynk.VIRTUAL_WRITE(1)
