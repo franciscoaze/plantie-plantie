@@ -11,7 +11,6 @@ import time
 import cv2
 
 
-
 class VideoStreamer:
 	outputFrame = None
 	lock = None
@@ -80,7 +79,7 @@ class VideoStreamer:
 			# yield the output frame in the byte format
 			yield (b'--frame\r\n' b'Content-Type: image/jpeg\r\n\r\n' + bytearray(encodedImage) + b'\r\n')
 
-	@app.route("/video_feed")
+	@self.app.route("/video_feed")
 	def video_feed(self):
 		# return the response generated along with the specific media
 		# type (mime type)
