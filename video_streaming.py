@@ -10,6 +10,8 @@ import time
 import cv2
 from flask_app import app
 
+app = app
+
 
 class VideoStreamer:
 	outputFrame = None
@@ -34,7 +36,8 @@ class VideoStreamer:
 		t.daemon = True
 		t.start()
 		# start the flask app
-		self.app.run(host='0.0.0.0', port=self.PORT, debug=True, threaded=True, use_reloader=False)
+		global app
+		app.run(host='0.0.0.0', port=self.PORT, debug=True, threaded=True, use_reloader=False)
 
 	def stop_stream(self):
 		# release the video stream pointer
