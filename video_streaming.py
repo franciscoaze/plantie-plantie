@@ -8,7 +8,8 @@ import datetime
 import imutils
 import time
 import cv2
-from flask_app import app
+from flask import Flask
+
 
 app = app
 
@@ -36,8 +37,10 @@ class VideoStreamer:
 		t.daemon = True
 		t.start()
 		# start the flask app
-		global app
+		self.app = Flask(__name__)
 		app.run(host='0.0.0.0', port=self.PORT, debug=True, threaded=True, use_reloader=False)
+
+		app.route('/video_feed')(self.video_feed)
 
 	def stop_stream(self):
 		# release the video stream pointer
@@ -81,7 +84,6 @@ class VideoStreamer:
 			# yield the output frame in the byte format
 			yield (b'--frame\r\n' b'Content-Type: image/jpeg\r\n\r\n' + bytearray(encodedImage) + b'\r\n')
 
-	@app.route("/video_feed")
 	def video_feed(self):
 		# return the response generated along with the specific media
 		# type (mime type)
