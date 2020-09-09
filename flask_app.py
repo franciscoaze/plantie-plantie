@@ -1,3 +1,3 @@
 from flask import Flask
 
-app = Flask('video_stream')
+app = Flask(__name__)
