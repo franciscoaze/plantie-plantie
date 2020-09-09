@@ -10,10 +10,6 @@ import time
 import cv2
 from flask import Flask
 
-
-app = app
-
-
 class VideoStreamer:
 	outputFrame = None
 	lock = None
