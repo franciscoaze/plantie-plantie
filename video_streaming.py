@@ -34,9 +34,9 @@ class VideoStreamer:
 		t.start()
 		# start the flask app
 		self.app = Flask(__name__)
-		app.run(host='0.0.0.0', port=self.PORT, debug=True, threaded=True, use_reloader=False)
+		self.app.run(host='0.0.0.0', port=self.PORT, debug=True, threaded=True, use_reloader=False)
 
-		app.route('/video_feed')(self.video_feed)
+		self.app.route('/video_feed')(self.video_feed)
 
 	def stop_stream(self):
 		# release the video stream pointer
