@@ -33,9 +33,10 @@ class VideoStreamer:
 		t.daemon = True
 		t.start()
 		# start the flask app
-		self.app = Flask(__name__)
-		self.app.run(host='0.0.0.0', port=self.PORT, debug=True, threaded=True, use_reloader=False)
+		self.app = Flask('video_stream')
+		self.app.run(host='0.0.0.0', port=self.PORT, threaded=True, use_reloader=False)
 
+		self.app.route('/')(self.index)
 		self.app.route('/video_feed')(self.video_feed)
 
 	def stop_stream(self):
@@ -85,10 +86,9 @@ class VideoStreamer:
 		# type (mime type)
 		return Response(self.generate(), mimetype="multipart/x-mixed-replace; boundary=frame")
 
-# @app.route("/")
-# def index():
-#     # return the rendered template
-#     return render_template("index.html")
+	def index(self):
+		# return the rendered template
+		return render_template("index.html")
 
 #
 # # check to see if this is the main thread of execution
