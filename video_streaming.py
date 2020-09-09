@@ -10,6 +10,7 @@ import imutils
 import time
 import cv2
 
+app = Flask('video_stream')
 
 class VideoStreamer:
 	outputFrame = None
@@ -26,7 +27,6 @@ class VideoStreamer:
 		self.outputFrame = None
 		self.lock = threading.Lock()
 		# initialize a flask object
-		self.app = Flask('video_stream')
 		# initialize the video stream and allow the camera sensor to warmup
 		self.vs = WebcamVideoStream(src=-1).start()
 		time.sleep(2.0)
@@ -79,7 +79,7 @@ class VideoStreamer:
 			# yield the output frame in the byte format
 			yield (b'--frame\r\n' b'Content-Type: image/jpeg\r\n\r\n' + bytearray(encodedImage) + b'\r\n')
 
-	@self.app.route("/video_feed")
+	@app.route("/video_feed")
 	def video_feed(self):
 		# return the response generated along with the specific media
 		# type (mime type)
