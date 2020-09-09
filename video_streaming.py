@@ -10,7 +10,8 @@ import imutils
 import time
 import cv2
 
-app = Flask('video_stream')
+app = None
+
 
 class VideoStreamer:
 	outputFrame = None
@@ -19,6 +20,10 @@ class VideoStreamer:
 	vs = None
 
 	PORT = '8000'
+
+	def __init__(self):
+		global app
+		app = Flask('video_stream')
 
 	def start_new_stream(self):
 		# initialize the output frame and a lock used to ensure thread-safe
