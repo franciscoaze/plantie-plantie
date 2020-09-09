@@ -1,7 +1,6 @@
 # import the necessary packages
 from imutils.video import WebcamVideoStream
 from flask import Response
-from flask import Flask
 from flask import render_template
 import threading
 import argparse
@@ -9,8 +8,7 @@ import datetime
 import imutils
 import time
 import cv2
-
-app = None
+from flask_app import app
 
 
 class VideoStreamer:
@@ -20,10 +18,6 @@ class VideoStreamer:
 	vs = None
 
 	PORT = '8000'
-
-	def __init__(self):
-		global app
-		app = Flask('video_stream')
 
 	def start_new_stream(self):
 		# initialize the output frame and a lock used to ensure thread-safe
