@@ -42,7 +42,7 @@ class VideoStreamer:
 		# release the video stream pointer
 		self.vs.stop()
 
-	def get_frames(self):
+	def get_frames(self,frameCount):
 		# grab global references to the video stream, output frame, and
 		# lock variables
 		total = 0
