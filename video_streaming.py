@@ -41,7 +41,7 @@ class VideoStreamer:
 		app.run(host='0.0.0.0', port=self.PORT, threaded=True, use_reloader=False)
 
 		app.add_url_rule('/', 'index', self.index)
-		app.route('/')(self.index())
+		# app.route('/')(self.index())
 		# self.app.route('/video_feed')(self.video_feed())
 
 	def stop_stream(self):
