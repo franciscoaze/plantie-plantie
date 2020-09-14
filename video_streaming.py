@@ -30,10 +30,10 @@ class VideoStreamer:
 		self.lock = threading.Lock()
 		# initialize a flask object
 		# initialize the video stream and allow the camera sensor to warmup
-		self.vs = WebcamVideoStream(src=-1).start()
+		# self.vs = WebcamVideoStream(src=-1).start()
 		time.sleep(2.0)
 
-		t = threading.Thread(target=self.get_frames, args=(32,))
+		# t = threading.Thread(target=self.get_frames, args=(32,))
 		t.daemon = True
 		t.start()
 		# start the flask app
@@ -48,49 +48,49 @@ class VideoStreamer:
 		# release the video stream pointer
 		self.vs.stop()
 
-	def get_frames(self,frameCount):
-		# grab global references to the video stream, output frame, and
-		# lock variables
-		total = 0
-		# loop over frames from the video stream
-		while True:
-			# read the next frame from the video stream, resize it,
-			# convert the frame to grayscale, and blur it
-			frame = self.vs.read()
-			# frame = imutils.resize(frame, width=400)
-			# grab the current timestamp and draw it on the frame
-			timestamp = datetime.datetime.now()
-			if frame is None:
-				cv2.putText(frame, timestamp.strftime(
-					"%A %d %B %Y %I:%M:%S%p"), (10, frame.shape[0] - 10),
-							cv2.FONT_HERSHEY_SIMPLEX, 0.35, (0, 0, 255), 1)
-
-				total += 1
-				with self.lock:
-					self.outputFrame = frame.copy()
-
-	def generate(self):
-		# grab global references to the output frame and lock variables
-		# loop over frames from the output stream
-		while True:
-			# wait until the lock is acquired
-			with self.lock:
-				# check if the output frame is available, otherwise skip
-				# the iteration of the loop
-				if self.outputFrame is None:
-					continue
-				# encode the frame in JPEG format
-				(flag, encodedImage) = cv2.imencode(".jpg", self.outputFrame)
-				# ensure the frame was successfully encoded
-				if not flag:
-					continue
-			# yield the output frame in the byte format
-			yield (b'--frame\r\n' b'Content-Type: image/jpeg\r\n\r\n' + bytearray(encodedImage) + b'\r\n')
-
-	def video_feed(self):
-		# return the response generated along with the specific media
-		# type (mime type)
-		return Response(self.generate(), mimetype="multipart/x-mixed-replace; boundary=frame")
+	# def get_frames(self,frameCount):
+	# 	# grab global references to the video stream, output frame, and
+	# 	# lock variables
+	# 	total = 0
+	# 	# loop over frames from the video stream
+	# 	while True:
+	# 		# read the next frame from the video stream, resize it,
+	# 		# convert the frame to grayscale, and blur it
+	# 		frame = self.vs.read()
+	# 		# frame = imutils.resize(frame, width=400)
+	# 		# grab the current timestamp and draw it on the frame
+	# 		timestamp = datetime.datetime.now()
+	# 		if frame is not None:
+	# 			cv2.putText(frame, timestamp.strftime(
+	# 				"%A %d %B %Y %I:%M:%S%p"), (10, frame.shape[0] - 10),
+	# 						cv2.FONT_HERSHEY_SIMPLEX, 0.35, (0, 0, 255), 1)
+	#
+	# 			total += 1
+	# 			with self.lock:
+	# 				self.outputFrame = frame.copy()
+	#
+	# def generate(self):
+	# 	# grab global references to the output frame and lock variables
+	# 	# loop over frames from the output stream
+	# 	while True:
+	# 		# wait until the lock is acquired
+	# 		with self.lock:
+	# 			# check if the output frame is available, otherwise skip
+	# 			# the iteration of the loop
+	# 			if self.outputFrame is None:
+	# 				continue
+	# 			# encode the frame in JPEG format
+	# 			(flag, encodedImage) = cv2.imencode(".jpg", self.outputFrame)
+	# 			# ensure the frame was successfully encoded
+	# 			if not flag:
+	# 				continue
+	# 		# yield the output frame in the byte format
+	# 		yield (b'--frame\r\n' b'Content-Type: image/jpeg\r\n\r\n' + bytearray(encodedImage) + b'\r\n')
+	#
+	# def video_feed(self):
+	# 	# return the response generated along with the specific media
+	# 	# type (mime type)
+	# 	return Response(self.generate(), mimetype="multipart/x-mixed-replace; boundary=frame")
 
 	def index(self):
 		# return the rendered template
