@@ -56,7 +56,7 @@ class Agent:
 
         # Serial
         try:
-            self.ser = serial.Serial('/dev/ttyUSB0', 115200, timeout=1)
+            self.ser = serial.Serial('/dev/ttyUSB1', 115200, timeout=1)
             self.ser.flush()
         except:
             self.ser = None
