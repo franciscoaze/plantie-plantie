@@ -3,10 +3,10 @@ import os
 import time
 import pickle
 import logger
-from configuration.vars import PUMP_SECONDS
+from configuration.vars import USB_PORT,PUMP_SECONDS
 
 # Connecting to Arduino
-ser = serial.Serial('/dev/ttyUSB0', 115200, timeout=1)
+ser = serial.Serial(USB_PORT, 115200, timeout=1)
 ser.flush()
 time.sleep(2)
 

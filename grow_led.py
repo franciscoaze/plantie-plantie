@@ -3,7 +3,7 @@ import os
 import time
 import pickle
 import logger
-
+from configuration.vars import USB_PORT
 try:
     with open('.states.pickle', 'rb') as f:
         states = pickle.load(f)
@@ -12,7 +12,7 @@ except:
     states = {'LED': 'ON'}
 
 print(states)
-ser = serial.Serial('/dev/ttyUSB0', 115200, timeout=1)
+ser = serial.Serial(USB_PORT, 115200, timeout=1)
 ser.flush()
 time.sleep(2)
 if states['LED'] == "ON":
