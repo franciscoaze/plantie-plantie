@@ -116,7 +116,3 @@ def index():
 # # release the video stream pointer
 # vs.stop()
 
-
-if __name__ == '__main__':
-	v = VideoStreamer()
-	v.start_new_stream()
