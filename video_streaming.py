@@ -38,7 +38,7 @@ class VideoStreamer:
 		t.start()
 		# start the flask app
 		app.add_url_rule('/', 'index', index)
-		app.add_url_rule('/', view_func =self.video_feed)
+		app.add_url_rule('/video', 'hello',self.video_feed)
 		# self.app.route('/video_feed')(self.video_feed())
 		app.run(host='0.0.0.0', port=self.PORT, threaded=True, use_reloader=False)
 
