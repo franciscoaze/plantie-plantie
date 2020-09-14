@@ -10,6 +10,8 @@ import time
 import cv2
 from flask import Flask
 
+app = Flask('video_stream')
+
 class VideoStreamer:
 	outputFrame = None
 	lock = None
@@ -22,6 +24,8 @@ class VideoStreamer:
 		# initialize the output frame and a lock used to ensure thread-safe
 		# exchanges of the output frames (useful when multiple browsers/tabs
 		# are viewing the stream)
+
+		global app
 		self.outputFrame = None
 		self.lock = threading.Lock()
 		# initialize a flask object
@@ -33,11 +37,11 @@ class VideoStreamer:
 		t.daemon = True
 		t.start()
 		# start the flask app
-		self.app = Flask('video_stream')
-		self.app.run(host='0.0.0.0', port=self.PORT, threaded=True, use_reloader=False)
 
-		self.app.add_url_rule('/', 'index', self.index)
-		self.app.route('/')(self.index())
+		app.run(host='0.0.0.0', port=self.PORT, threaded=True, use_reloader=False)
+
+		app.add_url_rule('/', 'index', self.index)
+		app.route('/')(self.index())
 		# self.app.route('/video_feed')(self.video_feed())
 
 	def stop_stream(self):
