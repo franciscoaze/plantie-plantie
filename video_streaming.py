@@ -56,13 +56,14 @@ class VideoStreamer:
 			# frame = imutils.resize(frame, width=400)
 			# grab the current timestamp and draw it on the frame
 			timestamp = datetime.datetime.now()
-			cv2.putText(frame, timestamp.strftime(
-				"%A %d %B %Y %I:%M:%S%p"), (10, frame.shape[0] - 10),
-						cv2.FONT_HERSHEY_SIMPLEX, 0.35, (0, 0, 255), 1)
+			if frame:
+				cv2.putText(frame, timestamp.strftime(
+					"%A %d %B %Y %I:%M:%S%p"), (10, frame.shape[0] - 10),
+							cv2.FONT_HERSHEY_SIMPLEX, 0.35, (0, 0, 255), 1)
 
-			total += 1
-			with self.lock:
-				self.outputFrame = frame.copy()
+				total += 1
+				with self.lock:
+					self.outputFrame = frame.copy()
 
 	def generate(self):
 		# grab global references to the output frame and lock variables
