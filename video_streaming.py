@@ -34,8 +34,8 @@ class VideoStreamer:
 		time.sleep(2.0)
 
 		# t = threading.Thread(target=self.get_frames, args=(32,))
-		t.daemon = True
-		t.start()
+		# t.daemon = True
+		# t.start()
 		# start the flask app
 
 		app.run(host='0.0.0.0', port=self.PORT, threaded=True, use_reloader=False)
