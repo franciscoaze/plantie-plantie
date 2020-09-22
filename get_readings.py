@@ -15,6 +15,7 @@ ser.flush()
 time.sleep(2)
 ser.write(f"<\n>".encode('utf-8'))
 line = ser.readline().decode('utf-8').rstrip().split(',')
+print(line)
 if line[0][0] == 'T':
     temp = float(line[0][1:])/100.0
     hum = float(line[1][1:])/100.0
