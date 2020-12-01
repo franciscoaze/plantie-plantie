@@ -9,6 +9,12 @@ import imutils
 import time
 import cv2
 from flask import Flask
+import atexit
+
+def OnExitApp():
+    print("Exit Python application")
+
+atexit.register(OnExitApp)
 
 app = Flask('video_stream')
 
