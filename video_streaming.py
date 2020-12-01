@@ -27,11 +27,20 @@ class VideoStreamer:
 		# are viewing the stream)
 
 		global app
+
+		if self.vs:
+			self.vs.release()
 		self.outputFrame = None
 		self.lock = threading.Lock()
 		# initialize a flask object
 		# initialize the video stream and allow the camera sensor to warmup
-		self.vs = WebcamVideoStream(src=-1).start()
+		try:
+			self.vs = WebcamVideoStream(src=-1)
+		except:
+			self.vs = WebcamVideoStream(src=0)
+
+		self.vs.start()
+
 		time.sleep(2.0)
 
 		t = threading.Thread(target=self.get_frames, args=(32,))
@@ -39,11 +48,12 @@ class VideoStreamer:
 		t.start()
 		# start the flask app
 		app.add_url_rule('/', 'index', index)
-		app.add_url_rule('/video', 'video',self.video_feed)
+		app.add_url_rule('/video', 'video', self.video_feed)
 		app.run(host='0.0.0.0', port=self.PORT, threaded=True, use_reloader=False)
 
 	def stop_stream(self):
 		# release the video stream pointer
+		self.vs.stream.release()
 		self.vs.stop()
 
 	def get_frames(self,frameCount):
@@ -113,6 +123,6 @@ def index():
 #     # start the flask app
 #     app.run(host=args["ip"], port=args["port"], debug=True,
 #             threaded=True, use_reloader=False)
-# # release the video stream pointer
-# vs.stop()
+# release the video stream pointer
+vs.stop()
 
