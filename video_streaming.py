@@ -124,5 +124,5 @@ def index():
 #     app.run(host=args["ip"], port=args["port"], debug=True,
 #             threaded=True, use_reloader=False)
 # release the video stream pointer
-vs.stop()
+# vs.stop()
 
