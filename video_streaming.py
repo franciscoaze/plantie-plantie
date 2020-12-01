@@ -34,8 +34,6 @@ class VideoStreamer:
 
 		global app
 
-		if self.vs:
-			self.vs.release()
 		self.outputFrame = None
 		self.lock = threading.Lock()
 		# initialize a flask object
