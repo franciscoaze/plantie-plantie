@@ -13,6 +13,7 @@ from keyboard_input import TextWindow,KeyTeleop
 import curses
 import threading
 import serial
+from configuration.vars import USB_PORT
 
 def centeroidnp(arr):
     length = arr.shape[1]
@@ -56,7 +57,7 @@ class Agent:
 
         # Serial
         try:
-            self.ser = serial.Serial('/dev/ttyUSB1', 115200, timeout=1)
+            self.ser = serial.Serial(USB_PORT, 115200, timeout=1)
             self.ser.flush()
         except:
             self.ser = None

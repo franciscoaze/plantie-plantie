@@ -5,7 +5,6 @@ import RPi.GPIO as GPIO
 from gpiozero import CPUTemperature
 
 GPIO.setmode(GPIO.BCM)
-# Define as GPIOs 14 e 18 como saida
 GPIO.setup(17, GPIO.OUT)
 # Inicializa Blynk
 blynk = BlynkLib.Blynk('83pa6ghaq1G40yxJrxqeOLAWFV9YTRN6')

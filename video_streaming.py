@@ -12,6 +12,7 @@ from flask import Flask
 
 app = Flask('video_stream')
 
+
 class VideoStreamer:
 	outputFrame = None
 	lock = None
@@ -38,8 +39,7 @@ class VideoStreamer:
 		t.start()
 		# start the flask app
 		app.add_url_rule('/', 'index', index)
-		app.add_url_rule('/video', 'hello',self.video_feed)
-		# self.app.route('/video_feed')(self.video_feed())
+		app.add_url_rule('/video', 'video',self.video_feed)
 		app.run(host='0.0.0.0', port=self.PORT, threaded=True, use_reloader=False)
 
 	def stop_stream(self):
