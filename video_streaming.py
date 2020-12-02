@@ -70,7 +70,6 @@ class VideoStreamer:
 		self.stream = False
 		self.vs.stream.release()
 		self.vs.stop()
-		self.t.release()
 
 		return 'video stopped'
 
