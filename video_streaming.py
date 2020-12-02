@@ -27,6 +27,15 @@ class VideoStreamer:
 
 	app = Flask('video_stream')
 
+	def __init__(self):
+
+		self.app.add_url_rule('/video_on', 'video_on', self.start_new_stream)
+		self.app.add_url_rule('/video_off', 'video_off', self.stop_stream)
+		self.app.add_url_rule('/', 'index', index)
+		self.app.add_url_rule('/video', 'video', self.video_feed)
+
+		self.app.run(host='0.0.0.0', port=self.PORT, threaded=True, use_reloader=False)
+
 	def start_new_stream(self):
 		# initialize the output frame and a lock used to ensure thread-safe
 		# exchanges of the output frames (useful when multiple browsers/tabs
@@ -45,18 +54,18 @@ class VideoStreamer:
 
 		time.sleep(2.0)
 
-		t = threading.Thread(target=self.get_frames, args=(32,))
-		t.daemon = True
-		t.start()
+		self.t = threading.Thread(target=self.get_frames, args=(32,))
+		self.t.daemon = True
+		self.t.start()
 		# start the flask app
-		self.app.add_url_rule('/', 'index', index)
-		self.app.add_url_rule('/video', 'video', self.video_feed)
-		self.app.run(host='0.0.0.0', port=self.PORT, threaded=True, use_reloader=False)
+
+
 
 	def stop_stream(self):
 		# release the video stream pointer
 		self.vs.stream.release()
 		self.vs.stop()
+		self.t.stop()
 
 	def get_frames(self,frameCount):
 		# grab global references to the video stream, output frame, and
