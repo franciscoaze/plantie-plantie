@@ -16,8 +16,6 @@ def OnExitApp():
 
 atexit.register(OnExitApp)
 
-app = Flask('video_stream')
-
 
 class VideoStreamer:
 	outputFrame = None
@@ -27,12 +25,12 @@ class VideoStreamer:
 
 	PORT = '8000'
 
+	app = Flask('video_stream')
+
 	def start_new_stream(self):
 		# initialize the output frame and a lock used to ensure thread-safe
 		# exchanges of the output frames (useful when multiple browsers/tabs
 		# are viewing the stream)
-
-		global app
 
 		self.outputFrame = None
 		self.lock = threading.Lock()
@@ -51,9 +49,9 @@ class VideoStreamer:
 		t.daemon = True
 		t.start()
 		# start the flask app
-		app.add_url_rule('/', 'index', index)
-		app.add_url_rule('/video', 'video', self.video_feed)
-		app.run(host='0.0.0.0', port=self.PORT, threaded=True, use_reloader=False)
+		self.app.add_url_rule('/', 'index', index)
+		self.app.add_url_rule('/video', 'video', self.video_feed)
+		self.app.run(host='0.0.0.0', port=self.PORT, threaded=True, use_reloader=False)
 
 	def stop_stream(self):
 		# release the video stream pointer
