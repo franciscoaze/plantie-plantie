@@ -29,6 +29,8 @@ class VideoStreamer:
 
 	def __init__(self):
 
+		self.stream = False
+
 		self.app.add_url_rule('/video_on', 'video_on', self.start_new_stream)
 		self.app.add_url_rule('/video_off', 'video_off', self.stop_stream)
 		self.app.add_url_rule('/', 'index', index)
@@ -58,11 +60,13 @@ class VideoStreamer:
 		self.t.daemon = True
 		self.t.start()
 		# start the flask app
+		self.stream = True
 
 
 
 	def stop_stream(self):
 		# release the video stream pointer
+		self.stream = False
 		self.vs.stream.release()
 		self.vs.stop()
 		self.t.stop()
@@ -91,20 +95,23 @@ class VideoStreamer:
 	def generate(self):
 		# grab global references to the output frame and lock variables
 		# loop over frames from the output stream
-		while True:
-			# wait until the lock is acquired
-			with self.lock:
-				# check if the output frame is available, otherwise skip
-				# the iteration of the loop
-				if self.outputFrame is None:
-					continue
-				# encode the frame in JPEG format
-				(flag, encodedImage) = cv2.imencode(".jpg", self.outputFrame)
-				# ensure the frame was successfully encoded
-				if not flag:
-					continue
-			# yield the output frame in the byte format
-			yield (b'--frame\r\n' b'Content-Type: image/jpeg\r\n\r\n' + bytearray(encodedImage) + b'\r\n')
+		if self.stream:
+			while True:
+				# wait until the lock is acquired
+				with self.lock:
+					# check if the output frame is available, otherwise skip
+					# the iteration of the loop
+					if self.outputFrame is None:
+						continue
+					# encode the frame in JPEG format
+					(flag, encodedImage) = cv2.imencode(".jpg", self.outputFrame)
+					# ensure the frame was successfully encoded
+					if not flag:
+						continue
+				# yield the output frame in the byte format
+				yield (b'--frame\r\n' b'Content-Type: image/jpeg\r\n\r\n' + bytearray(encodedImage) + b'\r\n')
+		else:
+			yield 'no video'
 
 	def video_feed(self):
 		# return the response generated along with the specific media
