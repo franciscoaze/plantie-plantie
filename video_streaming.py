@@ -62,6 +62,7 @@ class VideoStreamer:
 		# start the flask app
 		self.stream = True
 
+		return 'video streaming'
 
 
 	def stop_stream(self):
@@ -70,6 +71,9 @@ class VideoStreamer:
 		self.vs.stream.release()
 		self.vs.stop()
 		self.t.stop()
+
+		return 'video stopped'
+
 
 	def get_frames(self,frameCount):
 		# grab global references to the video stream, output frame, and
