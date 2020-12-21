@@ -61,7 +61,7 @@ class VideoStreamer:
 		self.t.start()
 		# start the flask app
 		self.stream = True
-
+		print('new_stream started')
 		return 'video streaming'
 
 
@@ -70,7 +70,7 @@ class VideoStreamer:
 		self.stream = False
 		self.vs.stream.release()
 		self.vs.stop()
-
+		print('stream stopped')
 		return 'video stopped'
 
 
