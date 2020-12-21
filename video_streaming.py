@@ -51,7 +51,7 @@ class VideoStreamer:
 			self.vs = WebcamVideoStream(src=-1)
 		except:
 			self.vs = WebcamVideoStream(src=0)
-
+		print(self.vs)
 		self.vs.start()
 
 		time.sleep(2.0)
