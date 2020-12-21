@@ -125,6 +125,9 @@ def index():
 	# return the rendered template
 	return render_template("index.html")
 
+if __name__ == '__main__':
+    vs = VideoStreamer()
+
 #
 # # check to see if this is the main thread of execution
 # if __name__ == '__main__':
