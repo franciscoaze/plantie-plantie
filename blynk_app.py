@@ -77,7 +77,7 @@ def control_led(value):
     # do valor recebido
     if value[0] >= "1":
         print(f"<PUMP,{pump_seconds}\n>".encode('utf-8'))
-        ser.write(f"<PUMP,{PUMP_SECONDS}\n>".encode('utf-8'))
+        ser.write(f"<PUMP,{pump_seconds}\n>".encode('utf-8'))
         ser.flush()
 
 @blynk.VIRTUAL_WRITE(5)
