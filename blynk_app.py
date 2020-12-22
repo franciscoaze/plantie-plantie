@@ -20,6 +20,8 @@ ser = serial.Serial(USB_PORT, 115200, timeout=1)
 ser.flush()
 time.sleep(2)
 
+pump_seconds = 1
+
 @blynk.VIRTUAL_WRITE(0)
 def control_video_stream(value):
     print('Valor de V0: {}'.format(value[0]))
@@ -55,7 +57,7 @@ def my_read_handler():
     blynk.virtual_write(2, cpu.temperature)
 
 @blynk.VIRTUAL_WRITE(3)
-def control_led(value):
+def control_grow_led(value):
     print(' V3: {}'.format(value[0]))
     # Acende ou apaga o led vermelho, dependendo
     # do valor recebido
@@ -68,6 +70,25 @@ def control_led(value):
         ser.flush()
         print('GROW LED ON')
 
+@blynk.VIRTUAL_WRITE(4)
+def control_led(value):
+    print(' V4: {}'.format(value[0]))
+    # Acende ou apaga o led vermelho, dependendo
+    # do valor recebido
+    if value[0] >= "1":
+        print(f"<PUMP,{PUMP_SECONDS}\n>".encode('utf-8'))
+
+        ser.write(f"<PUMP,{PUMP_SECONDS}\n>".encode('utf-8'))
+        ser.flush()
+        print('GROW LED OFF')
+
+@blynk.VIRTUAL_WRITE(5)
+def control_led(value):
+    print(' V5: {}'.format(value[0]))
+    global pump_seconds
+    # Acende ou apaga o led vermelho, dependendo
+    # do valor recebido
+    pump_seconds = value[0]
 
 while True:
     blynk.run()
