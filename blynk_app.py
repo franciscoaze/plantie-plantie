@@ -76,10 +76,10 @@ def control_led(value):
     # Acende ou apaga o led vermelho, dependendo
     # do valor recebido
     if value[0] >= "1":
-        print(f"<PUMP,{PUMP_SECONDS}\n>".encode('utf-8'))
+        print(f"<PUMP,{pump_seconds}\n>".encode('utf-8'))
 
-        ser.write(f"<PUMP,{PUMP_SECONDS}\n>".encode('utf-8'))
-        ser.flush()
+        # ser.write(f"<PUMP,{PUMP_SECONDS}\n>".encode('utf-8'))
+        # ser.flush()
         print('GROW LED OFF')
 
 @blynk.VIRTUAL_WRITE(5)
