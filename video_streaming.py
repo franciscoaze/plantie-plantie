@@ -79,8 +79,10 @@ class VideoStreamer:
 		# grab global references to the video stream, output frame, and
 		# lock variables
 		total = 0
+		print('entered thread')
 		# loop over frames from the video stream
 		while True:
+			print(total)
 			# read the next frame from the video stream, resize it,
 			# convert the frame to grayscale, and blur it
 			frame = self.vs.read()
@@ -120,7 +122,10 @@ class VideoStreamer:
 	def video_feed(self):
 		# return the response generated along with the specific media
 		# type (mime type)
-		return Response(self.generate(), mimetype="multipart/x-mixed-replace; boundary=frame")
+		if self.stream:
+			return Response(self.generate(), mimetype="multipart/x-mixed-replace; boundary=frame")
+		else:
+			return 'video_stopped'
 
 def index():
 	# return the rendered template
