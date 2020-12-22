@@ -49,9 +49,9 @@ class VideoStreamer:
 		# initialize the video stream and allow the camera sensor to warmup
 		print('pre initialize')
 		try:
-			self.vs = WebcamVideoStream(src=-1)
-		except:
 			self.vs = WebcamVideoStream(src=0)
+		except:
+			self.vs = WebcamVideoStream(src=-1)
 		print(self.vs)
 		self.vs.start()
 
@@ -101,23 +101,21 @@ class VideoStreamer:
 	def generate(self):
 		# grab global references to the output frame and lock variables
 		# loop over frames from the output stream
-		if self.stream:
-			while True:
-				# wait until the lock is acquired
-				with self.lock:
-					# check if the output frame is available, otherwise skip
-					# the iteration of the loop
-					if self.outputFrame is None:
-						continue
-					# encode the frame in JPEG format
-					(flag, encodedImage) = cv2.imencode(".jpg", self.outputFrame)
-					# ensure the frame was successfully encoded
-					if not flag:
-						continue
-				# yield the output frame in the byte format
-				yield (b'--frame\r\n' b'Content-Type: image/jpeg\r\n\r\n' + bytearray(encodedImage) + b'\r\n')
-		else:
-			yield 'no video'
+		while True:
+			# wait until the lock is acquired
+			with self.lock:
+				# check if the output frame is available, otherwise skip
+				# the iteration of the loop
+				if self.outputFrame is None:
+					continue
+				# encode the frame in JPEG format
+				(flag, encodedImage) = cv2.imencode(".jpg", self.outputFrame)
+				# ensure the frame was successfully encoded
+				if not flag:
+					continue
+			# yield the output frame in the byte format
+			yield (b'--frame\r\n' b'Content-Type: image/jpeg\r\n\r\n' + bytearray(encodedImage) + b'\r\n')
+
 
 	def video_feed(self):
 		# return the response generated along with the specific media
@@ -125,7 +123,7 @@ class VideoStreamer:
 		if self.stream:
 			return Response(self.generate(), mimetype="multipart/x-mixed-replace; boundary=frame")
 		else:
-			return 'video_stopped'
+			return 'no video available'
 
 def index():
 	# return the rendered template
