@@ -11,6 +11,7 @@ blynk = BlynkLib.Blynk('83pa6ghaq1G40yxJrxqeOLAWFV9YTRN6')
 import requests
 from configuration.vars import USB_PORT
 import serial
+import time
 
 
 URL = "http://192.168.1.80:8000"
