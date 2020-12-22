@@ -8,7 +8,9 @@ GPIO.setmode(GPIO.BCM)
 GPIO.setup(17, GPIO.OUT)
 # Inicializa Blynk
 blynk = BlynkLib.Blynk('83pa6ghaq1G40yxJrxqeOLAWFV9YTRN6')
-vs = VideoStreamer()
+import requests
+
+URL = "http://192.168.1.80:8000"
 
 # Registra os pinos virtuais
 @blynk.VIRTUAL_WRITE(1)
@@ -28,9 +30,10 @@ def control_video_stream(value):
     # Acende ou apaga o led vermelho, dependendo
     # do valor recebido
     if value[0] >= "1":
-        vs.start_new_stream()
+        r = requests.get(url = URL+'/video_on')
     else:
-        vs.stop_stream()
+        r = requests.get(url=URL + '/video_off')
+    print(r)
 
 @blynk.VIRTUAL_READ(2)
 def my_read_handler():
