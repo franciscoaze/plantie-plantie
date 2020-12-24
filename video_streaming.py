@@ -86,6 +86,8 @@ class VideoStreamer:
 			# read the next frame from the video stream, resize it,
 			# convert the frame to grayscale, and blur it
 			frame = self.vs.read()
+			frame = imutils.resize(frame, width=400)
+			frame = cv2.flip(frame, 0)
 			# frame = imutils.resize(frame, width=400)
 			# grab the current timestamp and draw it on the frame
 			timestamp = datetime.datetime.now()
