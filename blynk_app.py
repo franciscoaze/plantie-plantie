@@ -71,7 +71,7 @@ def control_grow_led(value):
         print('GROW LED ON')
 
 @blynk.VIRTUAL_WRITE(4)
-def control_led(value):
+def control_pump(value):
     print(' V4: {}'.format(value[0]))
     # Acende ou apaga o led vermelho, dependendo
     # do valor recebido
@@ -81,12 +81,17 @@ def control_led(value):
         ser.flush()
 
 @blynk.VIRTUAL_WRITE(5)
-def control_led(value):
+def control_pump_seconds(value):
     print(' V5: {}'.format(value[0]))
     global pump_seconds
     # Acende ou apaga o led vermelho, dependendo
     # do valor recebido
     pump_seconds = value[0]
+
+@blynk.VIRTUAL_WRITE(6)
+def control_servo(value):
+    print(' V6: {}'.format(value[0]))
+    ser.write(f"<SERVO,{value[0]}\n>".encode('utf-8'))
 
 while True:
     blynk.run()
