@@ -64,7 +64,7 @@ class ArduinoClient:
             indicator, values = reading.split(',', maxsplit=1)
 
             for worker in [self.sensor_workers[name] for name in self.sensor_workers if self.sensor_workers[name].indicator == indicator]:
-                data = worker.process_data(values)
+                data = worker.process_sensor_data(values)
                 worker.send_mqtt(self.client, data, self.logger)
         except:
             pass
