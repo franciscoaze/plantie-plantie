@@ -3,7 +3,12 @@ Contains all the arduino workers actuators definitions
 """
 import copy
 
+
 class _ArduinoActuator(object):
+
+    def __init__(self, mqtt_client, logger):
+        self.client = mqtt_client
+        self.logger = logger
 
     def send_serial(self, serial_connection, msg, logger):
         template = copy.deepcopy(self.serial_format)

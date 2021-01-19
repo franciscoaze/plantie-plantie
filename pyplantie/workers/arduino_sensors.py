@@ -8,6 +8,10 @@ class _ArduinoSensor(object):
     sep = ","
     request_format = "<#value#>"
 
+    def __init__(self, mqtt_client, logger):
+        self.client = mqtt_client
+        self.logger = logger
+
     def extra_processing(self, treated_data: dict) -> dict:
         return treated_data
 
@@ -33,13 +37,12 @@ class _ArduinoSensor(object):
         serial_connection.flush()
 
 
-
 class BME208(_ArduinoSensor):
     indicator = "BME"
     data_format = ["T", "H"]
     pub_topic = 'sensors/arduino/temphum'
     sub_topic = "sensors/requests/BME"
-    pub_format = "temperature: #T#, humidity: #H#>"
+    pub_format = "temperature: #T#, humidity: #H#"
 
     def extra_processing(self, treated_data: dict) -> dict:
         """

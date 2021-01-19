@@ -24,11 +24,7 @@ class ArduinoClient:
 
     def __init__(self):
         # Configure logger
-        self.logger = new_logger(name='arduino_rwi')
-        # Get all actuators and sensors
-        self.actuator_workers = {name: cls() for name, cls in inspect.getmembers(importlib.import_module(ARDUINO_ACTUATORS_FILE), inspect.isclass) if not name.startswith('_')}
-        self.sensor_workers = {name: cls() for name, cls in inspect.getmembers(importlib.import_module(ARDUINO_SENSORS_FILE), inspect.isclass) if not name.startswith('_')}
-        self.logger.info(f'Found {len(self.actuator_workers)} arduino actuators and {len(self.sensor_workers)} arduino sensors')
+        self.logger = new_logger(name=ARDUINO_CLIENT_NAME)
 
         self.client = mqtt.Client(ARDUINO_CLIENT_NAME)
         self.client.connect(BROKER_ADDRESS)
@@ -37,10 +33,18 @@ class ArduinoClient:
 
         self.ser = serial.Serial(ARDUINO_USB_PORT, 115200, timeout=1)
 
+        # Get all actuators and sensors
+        self.actuator_workers = {name: cls(self.client, self.logger) for name, cls in inspect.getmembers(importlib.import_module(ARDUINO_ACTUATORS_FILE), inspect.isclass) if not name.startswith('_')}
+        self.sensor_workers = {name: cls(self.client, self.logger) for name, cls in inspect.getmembers(importlib.import_module(ARDUINO_SENSORS_FILE), inspect.isclass) if not name.startswith('_')}
+        self.logger.info(f'Found {len(self.actuator_workers)} arduino actuators and {len(self.sensor_workers)} arduino sensors')
+
         self.thread = threading.Thread(target=self.read_serial, args=())
         self.thread.start()
-        self.client.loop_start()
+
         atexit.register(self.on_exit)
+
+    def start(self):
+        self.client.loop_forever()
 
     def read_serial(self):
         """
