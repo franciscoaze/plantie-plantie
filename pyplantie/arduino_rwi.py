@@ -95,4 +95,5 @@ class ArduinoClient:
 
 
 if __name__ == '__main__':
-    ArduinoClient()
+    ardu_rwi = ArduinoClient()
+    ardu_rwi.start()
