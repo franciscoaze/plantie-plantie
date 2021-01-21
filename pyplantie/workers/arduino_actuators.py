@@ -18,9 +18,14 @@ class _ArduinoActuator(object):
         serial_connection.flush()
 
 
-class Pump(_ArduinoActuator):
-    sub_topic = "actions/pump"
-    serial_format = "<PUMP,#value#>"
+class Pump1(_ArduinoActuator):
+    sub_topic = "actions/pump1"
+    serial_format = "<PUMP1,#value#>"
+
+
+class Pump2(_ArduinoActuator):
+    sub_topic = "actions/pump2"
+    serial_format = "<PUMP2,#value#>"
 
 
 class GrowLed(_ArduinoActuator):
