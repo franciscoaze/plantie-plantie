@@ -138,5 +138,5 @@ client.on_message = on_mqtt_message
 
 
 while True:
-    client.loop_forever()
+    # client.loop_forever()
     blynk.run()
