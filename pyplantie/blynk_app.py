@@ -65,7 +65,6 @@ def control_led(value):
         qos=0)
 
 
-@blynk.VIRTUAL_READ(2)
 def send_cpu_temp(value):
     """
     Sends the cpu temp value received from the internal temp topic
@@ -127,7 +126,6 @@ def control_servo(value):
         qos=0)
 
 
-@blynk.VIRTUAL_READ(7)
 def send_hum_temp(value):
     """
     Sends the hum temp value received from the hum temp topic
