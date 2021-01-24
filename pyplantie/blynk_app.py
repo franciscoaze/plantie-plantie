@@ -21,7 +21,7 @@ logger = new_logger(name=BLYNK_CLIENT_NAME, extra_handlers=["BlynkLog"])
 
 GPIO.setmode(GPIO.BCM)
 
-blynk = BlynkLib.Blynk('dEI_FInM4Af6bjoJ2hDQOvFPLQvSxQpU', server=BLYNK_SERVER_HOST, port=BLYNK_SERVER_PORT)
+blynk = BlynkLib.Blynk('83pa6ghaq1G40yxJrxqeOLAWFV9YTRN6')
 pump_seconds = 1
 
 
