@@ -132,6 +132,7 @@ def send_hum_temp(value):
     """
     blynk.virtual_write(7, value.get('T'))
     blynk.virtual_write(8, value.get('H'))
+    logger.info(f'Updated temps to {value}')
 
 
 client = mqtt.Client(BLYNK_CLIENT_NAME)
