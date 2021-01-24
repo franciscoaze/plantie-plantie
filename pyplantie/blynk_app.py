@@ -15,7 +15,7 @@ from pyplantie.utils.mylogger import new_logger
 
 SUB_TOPICS = [('sensors/#', 1)]
 
-logger = new_logger(name=BLYNK_CLIENT_NAME, extra_handlers=["BlynkLib"])
+logger = new_logger(name=BLYNK_CLIENT_NAME, extra_handlers=["BlynkLog"])
 
 GPIO.setmode(GPIO.BCM)
 
