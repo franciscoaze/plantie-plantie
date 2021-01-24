@@ -33,11 +33,6 @@ class GrowLed(_ArduinoActuator):
     serial_format = "<LED,#value#>"
 
 
-class Motor(_ArduinoActuator):
-    sub_topic = "actions/motor"
-    serial_format = "<LED,#value#>"
-
-
 class Servo(_ArduinoActuator):
     sub_topic = "actions/servo"
-    serial_format = "<LED,#value#>"
+    serial_format = "<SERVO,#value#>"

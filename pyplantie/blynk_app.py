@@ -1,53 +1,54 @@
-# Programa: Blynk com Raspberry Pi
-# Autor: Arduino e Cia
 import BlynkLib
 import RPi.GPIO as GPIO
 from gpiozero import CPUTemperature
-from video_streaming import VideoStreamer
-GPIO.setmode(GPIO.BCM)
-GPIO.setup(17, GPIO.OUT)
-# Inicializa Blynk
-blynk = BlynkLib.Blynk('83pa6ghaq1G40yxJrxqeOLAWFV9YTRN6')
 import requests
 from configuration.vars import USB_PORT
 import serial
 import time
+from pyplantie.utils.constants import VIDEO_URL, BLYNK_CLIENT_NAME
+import paho.mqtt.client as mqtt
 
+from pyplantie.workers.arduino_actuators import GrowLed, Pump1, Pump2, Servo
+from pyplantie.workers.raspberry_actuators import WhiteLED
 
-URL = "http://192.168.1.80:8000"
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(17, GPIO.OUT)
+blynk = BlynkLib.Blynk('83pa6ghaq1G40yxJrxqeOLAWFV9YTRN6')
 
-ser = serial.Serial(USB_PORT, 115200, timeout=1)
-ser.flush()
-time.sleep(2)
+client = mqtt.Client(BLYNK_CLIENT_NAME)
 
 pump_seconds = 1
 
 @blynk.VIRTUAL_WRITE(0)
 def control_video_stream(value):
     print('Valor de V0: {}'.format(value[0]))
-    # Acende ou apaga o led vermelho, dependendo
-    # do valor recebido
     try:
         if value[0] >= "1":
-            r = requests.get(url = URL+'/video_on')
+            r = requests.get(url=VIDEO_URL + '/video_on')
         else:
-            r = requests.get(url=URL + '/video_off')
+            r = requests.get(url=VIDEO_URL + '/video_off')
         print(r)
     except:
         print('no response')
 
-# Registra os pinos virtuais
+
 @blynk.VIRTUAL_WRITE(1)
 def control_led(value):
+    """
+    Controls the white camera led
+    """
     print('Valor de V1: {}'.format(value[0]))
-    # Acende ou apaga o led vermelho, dependendo
-    # do valor recebido
-    if value[0] >= "1":
-        GPIO.output(17,GPIO.HIGH)
-    else:
-        GPIO.output(17, GPIO.LOW)
 
-# Camera ON/OFF
+    if value[0] >= "1":
+        msg = {"value": "ON"}
+    else:
+        msg = {"value": "OFF"}
+
+    client.publish(
+        topic= WhiteLED.sub_topic,
+        payload=msg,
+        qos=0)
+
 
 @blynk.VIRTUAL_READ(2)
 def my_read_handler():
@@ -56,19 +57,25 @@ def my_read_handler():
     print(cpu.temperature)
     blynk.virtual_write(2, cpu.temperature)
 
+
 @blynk.VIRTUAL_WRITE(3)
 def control_grow_led(value):
+    """
+    Controls the grow led
+    """
     print(' V3: {}'.format(value[0]))
-    # Acende ou apaga o led vermelho, dependendo
-    # do valor recebido
+
     if value[0] >= "1":
-        ser.write(f"<LED,{255}\n>".encode('utf-8'))
-        ser.flush()
-        print('GROW LED OFF')
-    else:
-        ser.write(f"<LED,{0}\n>".encode('utf-8'))
-        ser.flush()
+        msg = {"value": "255"}
         print('GROW LED ON')
+    else:
+        msg = {"value": "255"}
+        print('GROW LED OFF')
+
+    client.publish(
+        topic=GrowLed.sub_topic,
+        payload=msg,
+        qos=0)
 
 @blynk.VIRTUAL_WRITE(4)
 def control_pump(value):
@@ -76,9 +83,12 @@ def control_pump(value):
     # Acende ou apaga o led vermelho, dependendo
     # do valor recebido
     if value[0] >= "1":
-        print(f"<PUMP,{pump_seconds}\n>".encode('utf-8'))
-        ser.write(f"<PUMP,{pump_seconds}\n>".encode('utf-8'))
-        ser.flush()
+        msg = {'value': pump_seconds}
+
+    client.publish(
+        topic=Pump2.sub_topic,
+        payload=msg,
+        qos=0)
 
 @blynk.VIRTUAL_WRITE(5)
 def control_pump_seconds(value):
@@ -91,7 +101,13 @@ def control_pump_seconds(value):
 @blynk.VIRTUAL_WRITE(6)
 def control_servo(value):
     print(' V6: {}'.format(value[0]))
-    ser.write(f"<SERVO,{value[0]}\n>".encode('utf-8'))
+    msg = {'value': value[0]}
+
+    client.publish(
+        topic=Servo.sub_topic,
+        payload=msg,
+        qos=0)
+
 
 while True:
     blynk.run()
