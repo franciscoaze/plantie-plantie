@@ -5,7 +5,7 @@ import requests
 from configuration.vars import USB_PORT
 import serial
 import time
-from pyplantie.utils.constants import VIDEO_URL, BLYNK_CLIENT_NAME
+from pyplantie.utils.constants import BROKER_ADDRESS, VIDEO_URL, BLYNK_CLIENT_NAME
 import paho.mqtt.client as mqtt
 
 from pyplantie.workers.arduino_actuators import GrowLed, Pump1, Pump2, Servo
@@ -16,6 +16,7 @@ GPIO.setup(17, GPIO.OUT)
 blynk = BlynkLib.Blynk('83pa6ghaq1G40yxJrxqeOLAWFV9YTRN6')
 
 client = mqtt.Client(BLYNK_CLIENT_NAME)
+self.client.connect(BROKER_ADDRESS)
 
 pump_seconds = 1
 
