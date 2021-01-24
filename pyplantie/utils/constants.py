@@ -14,3 +14,6 @@ ARDUINO_CLIENT_NAME = os.getenv("ARDUINO_CLIENT_NAME", "Arduino-RWI")
 RPI_ACTUATORS_FILE = os.getenv("RPI_ACTUATORS_FILE", "pyplantie.workers.raspberry_actuators")
 RPI_SENSORS_FILE = os.getenv("RPI_SENSORS_FILE", "pyplantie.workers.raspberry_sensors")
 RPI_CLIENT_NAME = os.getenv("RPI_CLIENT_NAME", "RPI-RWI")
+
+JOBS_DEF_FILE = os.getenv("JOBS_DEF_FILE", "pyplantie.workers.jobs")
+CORE_CLIENT_NAME = os.getenv("CORE_CLIENT_NAME", "Core-app")

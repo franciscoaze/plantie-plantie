@@ -31,7 +31,7 @@ class _ArduinoSensor(object):
 
     def send_serial(self, serial_connection, msg, logger):
         template = copy.deepcopy(self.request_format)
-        alt_msg = template.replace("#value#", str(msg.get('source')))
+        alt_msg = template.replace("#value#", str(msg.get('value')))
         logger.info(f'Sending serial: {alt_msg}')
         serial_connection.write(alt_msg.encode('utf-8'))
         serial_connection.flush()
