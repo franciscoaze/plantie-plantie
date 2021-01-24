@@ -19,4 +19,4 @@ JOBS_DEF_FILE = os.getenv("JOBS_DEF_FILE", "pyplantie.workers.jobs")
 CORE_CLIENT_NAME = os.getenv("CORE_CLIENT_NAME", "Core-app")
 
 VIDEO_URL = os.getenv("VIDEO_URL","http://192.168.1.80:8000")
-BLYNK_CLIENT_NAME = os.getenv("BLYNK_CLIENT_NAME", "Blynk-app)
+BLYNK_CLIENT_NAME = os.getenv("BLYNK_CLIENT_NAME", "Blynk-app")
