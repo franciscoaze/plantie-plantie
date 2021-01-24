@@ -1,6 +1,6 @@
 import BlynkLib
 import requests
-from pyplantie.utils.constants import BROKER_ADDRESS, VIDEO_URL, BLYNK_CLIENT_NAME, BLYNK_SERVER_HOST, BLYNK_SERVER_PORT
+from pyplantie.utils.constants import BROKER_ADDRESS, VIDEO_URL, BLYNK_CLIENT_NAME, BLYNK_SERVER_HOST, BLYNK_SERVER_PORT,BLYNK_AUTH
 import paho.mqtt.client as mqtt
 import json
 
@@ -16,7 +16,7 @@ SUB_TOPICS = [('sensors/#', 1)]
 logging.getLogger('BlynkLog').setLevel(logging.DEBUG)
 logger = new_logger(name=BLYNK_CLIENT_NAME, extra_handlers=["BlynkLog"])
 
-blynk = BlynkLib.Blynk('2p5G4h1wANysfVDWthWi71DorXeAByTG')
+blynk = BlynkLib.Blynk(BLYNK_AUTH)
 pump_seconds = 1
 
 
@@ -138,5 +138,5 @@ client.on_message = on_mqtt_message
 
 
 while True:
-    # client.loop_forever()
+    client.loop_starts()
     blynk.run()
