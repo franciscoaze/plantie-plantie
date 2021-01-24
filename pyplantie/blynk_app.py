@@ -12,9 +12,11 @@ from pyplantie.workers.raspberry_actuators import WhiteLED
 from pyplantie.workers.raspberry_sensors import InternalTemp
 from pyplantie.workers.arduino_sensors import BME208
 from pyplantie.utils.mylogger import new_logger
+import logging
 
 SUB_TOPICS = [('sensors/#', 1)]
 
+logging.getLogger('BlynkLog').setLevel(logging.WARNING)
 logger = new_logger(name=BLYNK_CLIENT_NAME, extra_handlers=["BlynkLog"])
 
 GPIO.setmode(GPIO.BCM)
