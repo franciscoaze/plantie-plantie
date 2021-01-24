@@ -16,7 +16,7 @@ GPIO.setup(17, GPIO.OUT)
 blynk = BlynkLib.Blynk('83pa6ghaq1G40yxJrxqeOLAWFV9YTRN6')
 
 client = mqtt.Client(BLYNK_CLIENT_NAME)
-self.client.connect(BROKER_ADDRESS)
+client.connect(BROKER_ADDRESS)
 
 pump_seconds = 1
 
