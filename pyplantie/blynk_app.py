@@ -16,7 +16,7 @@ SUB_TOPICS = [('sensors/#', 1)]
 logging.getLogger('BlynkLog').setLevel(logging.DEBUG)
 logger = new_logger(name=BLYNK_CLIENT_NAME, extra_handlers=["BlynkLog"])
 
-blynk = BlynkLib.Blynk('83pa6ghaq1G40yxJrxqeOLAWFV9YTRN6')
+blynk = BlynkLib.Blynk('2p5G4h1wANysfVDWthWi71DorXeAByTG')
 pump_seconds = 1
 
 
