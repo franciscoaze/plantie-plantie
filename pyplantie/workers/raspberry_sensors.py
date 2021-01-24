@@ -2,6 +2,8 @@
 Contains all the arduino workers sensors definitions
 """
 import copy
+import json
+
 try:
     import RPi.GPIO as GPIO
     from gpiozero import CPUTemperature as _CPUTemperature
@@ -21,7 +23,7 @@ class _RaspberrySensor(object):
     def send_mqtt(self, msg, qos=0):
         self.client.publish(
             topic=self.pub_topic,
-            payload=msg,
+            payload=json.dumps(msg),
             qos=qos)
 
         self.logger.info(f'Sending mqtt to topic {self.pub_topic}: {msg}')
@@ -30,7 +32,7 @@ class _RaspberrySensor(object):
 class InternalTemp(_RaspberrySensor):
     pub_topic = 'sensors/rpi/IntTemp'
     sub_topic = "sensors/requests/IntTemp"
-    pub_format = "temperature: #T#"
+    pub_format = {"temperature": 0}
 
     def execute(self, data: dict, client, logger,  qos=0) -> None:
         """
@@ -38,7 +40,7 @@ class InternalTemp(_RaspberrySensor):
         """
         cpu = _CPUTemperature()
         alt_msg = copy.deepcopy(self.pub_format)
-        alt_msg = alt_msg.replace(f"#T#", str(cpu.temperature))
+        alt_msg['temperature'] = cpu.temperature
 
         self.send_mqtt(alt_msg)
 

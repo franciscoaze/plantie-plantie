@@ -2,7 +2,7 @@
 Contains all the arduino workers sensors definitions
 """
 import copy
-
+import json
 
 class _ArduinoSensor(object):
     sep = ","
@@ -20,13 +20,13 @@ class _ArduinoSensor(object):
         return self.extra_processing(dict(zip(self.data_format, sep_data)))
 
     def send_mqtt(self, client, final_data: dict, logger, qos=1):
-        alt_msg = copy.deepcopy(self.pub_format)
-        for key, val in final_data.items():
-            alt_msg = alt_msg.replace(f"#{key}#", str(val))
-        logger.info(f'Sending mqtt to topic {self.pub_topic}: {alt_msg}')
+        # alt_msg = copy.deepcopy(self.pub_format)
+        # for key, val in final_data.items():
+        #     alt_msg = alt_msg.replace(f"#{key}#", str(val))
+        logger.info(f'Sending mqtt to topic {self.pub_topic}: {final_data}')
         client.publish(
             topic=self.pub_topic,
-            payload=alt_msg,
+            payload=json.dumps(final_data),
             qos=qos)
 
     def send_serial(self, serial_connection, msg, logger):
@@ -42,7 +42,7 @@ class BME208(_ArduinoSensor):
     data_format = ["T", "H"]
     pub_topic = 'sensors/arduino/temphum'
     sub_topic = "sensors/requests/BME"
-    pub_format = "temperature: #T#, humidity: #H#"
+    pub_format = {"T": 0, "H": 0 }
 
     def extra_processing(self, treated_data: dict) -> dict:
         """
