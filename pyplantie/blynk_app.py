@@ -20,6 +20,24 @@ blynk = BlynkLib.Blynk('2p5G4h1wANysfVDWthWi71DorXeAByTG')
 pump_seconds = 1
 
 
+@blynk.VIRTUAL_WRITE(1)
+def control_led(value):
+    """
+    Controls the white camera led
+    """
+    logger.info('Valor de V1: {}'.format(value[0]))
+
+    if value[0] >= "1":
+        msg = {"value": "ON"}
+    else:
+        msg = {"value": "OFF"}
+
+    client.publish(
+        topic= WhiteLED.sub_topic,
+        payload=json.dumps(msg),
+        qos=0)
+
+
 def on_mqtt_message(client, userdata, message):
     logger.info(f'Received {message.payload} from {message.topic}')
     topic = message.topic
@@ -41,24 +59,6 @@ def control_video_stream(value):
         print(r)
     except:
         print('no response')
-
-
-@blynk.VIRTUAL_WRITE(1)
-def control_led(value):
-    """
-    Controls the white camera led
-    """
-    logger.info('Valor de V1: {}'.format(value[0]))
-
-    if value[0] >= "1":
-        msg = {"value": "ON"}
-    else:
-        msg = {"value": "OFF"}
-
-    client.publish(
-        topic= WhiteLED.sub_topic,
-        payload=json.dumps(msg),
-        qos=0)
 
 
 def send_cpu_temp(value):
