@@ -2,11 +2,10 @@ import BlynkLib
 import RPi.GPIO as GPIO
 from gpiozero import CPUTemperature
 import requests
-from configuration.vars import USB_PORT
-import serial
 import time
 from pyplantie.utils.constants import BROKER_ADDRESS, VIDEO_URL, BLYNK_CLIENT_NAME
 import paho.mqtt.client as mqtt
+import json
 
 from pyplantie.workers.arduino_actuators import GrowLed, Pump1, Pump2, Servo
 from pyplantie.workers.raspberry_actuators import WhiteLED
@@ -47,7 +46,7 @@ def control_led(value):
 
     client.publish(
         topic= WhiteLED.sub_topic,
-        payload=msg,
+        payload=json.dumps(msg),
         qos=0)
 
 
@@ -75,7 +74,7 @@ def control_grow_led(value):
 
     client.publish(
         topic=GrowLed.sub_topic,
-        payload=msg,
+        payload=json.dumps(msg),
         qos=0)
 
 @blynk.VIRTUAL_WRITE(4)
@@ -88,7 +87,7 @@ def control_pump(value):
 
     client.publish(
         topic=Pump2.sub_topic,
-        payload=msg,
+        payload=json.dumps(msg),
         qos=0)
 
 @blynk.VIRTUAL_WRITE(5)
@@ -106,7 +105,7 @@ def control_servo(value):
 
     client.publish(
         topic=Servo.sub_topic,
-        payload=msg,
+        payload=json.dumps(msg),
         qos=0)
 
 
