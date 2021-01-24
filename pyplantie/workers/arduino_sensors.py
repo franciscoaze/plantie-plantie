@@ -42,7 +42,7 @@ class BME208(_ArduinoSensor):
     data_format = ["T", "H"]
     pub_topic = 'sensors/arduino/temphum'
     sub_topic = "sensors/requests/BME"
-    pub_format = {"T": 0, "H": 0 }
+    pub_format = {"T": 0, "H": 0}
 
     def extra_processing(self, treated_data: dict) -> dict:
         """
