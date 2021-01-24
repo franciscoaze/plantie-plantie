@@ -60,7 +60,7 @@ def on_mqtt_message(client, userdata, message):
 #     except:
 #         print('no response')
 
-
+@blynk.handle_event('read V2')
 def send_cpu_temp(value):
     """
     Sends the cpu temp value received from the internal temp topic
