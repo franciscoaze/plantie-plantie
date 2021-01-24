@@ -26,7 +26,7 @@ class Core:
     scheduler = BlockingScheduler()
 
     def __init__(self):
-        self.logger = new_logger(name=CORE_CLIENT_NAME,extra_handlers=['apscheduler'])
+        self.logger = new_logger(name=CORE_CLIENT_NAME, extra_handlers=['apscheduler'])
 
         self.client = mqtt.Client(CORE_CLIENT_NAME)
         self.client.connect(BROKER_ADDRESS)
