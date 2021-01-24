@@ -21,11 +21,6 @@ GPIO.setmode(GPIO.BCM)
 
 blynk = BlynkLib.Blynk('83pa6ghaq1G40yxJrxqeOLAWFV9YTRN6')
 
-client = mqtt.Client(BLYNK_CLIENT_NAME)
-client.connect(BROKER_ADDRESS)
-client.subscribe(SUB_TOPICS)
-client.on_message = lambda client, userdata, msg: on_mqtt_message(client, userdata, msg)
-
 pump_seconds = 1
 
 
@@ -138,6 +133,12 @@ def send_hum_temp(value):
     Sends the hum temp value received from the hum temp topic
     """
     blynk.virtual_write(7, value.get('temperature'))
+
+
+client = mqtt.Client(BLYNK_CLIENT_NAME)
+client.connect(BROKER_ADDRESS)
+client.subscribe(SUB_TOPICS)
+client.on_message = on_mqtt_message
 
 
 while True:
