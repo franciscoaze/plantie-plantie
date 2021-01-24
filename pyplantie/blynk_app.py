@@ -1,4 +1,4 @@
-import BlynkLib
+import blynkLib
 import requests
 from pyplantie.utils.constants import BROKER_ADDRESS, VIDEO_URL, BLYNK_CLIENT_NAME, BLYNK_SERVER_HOST, BLYNK_SERVER_PORT
 import paho.mqtt.client as mqtt
