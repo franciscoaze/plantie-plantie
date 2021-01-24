@@ -20,8 +20,8 @@ blynk = blynklib.Blynk('2p5G4h1wANysfVDWthWi71DorXeAByTG')
 pump_seconds = 1
 
 
-@blynk.VIRTUAL_WRITE(1)
-def control_led(value):
+@blynk.handle_event('write V1')
+def control_led(pin, value):
     """
     Controls the white camera led
     """
@@ -48,17 +48,17 @@ def on_mqtt_message(client, userdata, message):
         send_hum_temp(msg_dict)
 
 
-@blynk.VIRTUAL_WRITE(0)
-def control_video_stream(value):
-    print('Valor de V0: {}'.format(value[0]))
-    try:
-        if value[0] >= "1":
-            r = requests.get(url=VIDEO_URL + '/video_on')
-        else:
-            r = requests.get(url=VIDEO_URL + '/video_off')
-        print(r)
-    except:
-        print('no response')
+# @blynk.VIRTUAL_WRITE(0)
+# def control_video_stream(value):
+#     print('Valor de V0: {}'.format(value[0]))
+#     try:
+#         if value[0] >= "1":
+#             r = requests.get(url=VIDEO_URL + '/video_on')
+#         else:
+#             r = requests.get(url=VIDEO_URL + '/video_off')
+#         print(r)
+#     except:
+#         print('no response')
 
 
 def send_cpu_temp(value):
@@ -68,58 +68,58 @@ def send_cpu_temp(value):
     blynk.virtual_write(2, value.get('temperature'))
 
 
-@blynk.VIRTUAL_WRITE(3)
-def control_grow_led(value):
-    """
-    Controls the grow led
-    """
-    logger.info(' V3: {}'.format(value[0]))
-
-    if value[0] >= "1":
-        msg = {"value": "255"}
-        print('GROW LED ON')
-    else:
-        msg = {"value": "0"}
-        print('GROW LED OFF')
-
-    client.publish(
-        topic=GrowLed.sub_topic,
-        payload=json.dumps(msg),
-        qos=0)
-
-@blynk.VIRTUAL_WRITE(4)
-def control_pump2(value):
-    """
-    Control bottom pump
-    """
-    logger.info(' V4: {}'.format(value[0]))
-    if value[0] >= "1":
-        msg = {'value': pump_seconds}
-
-        client.publish(
-            topic=Pump2.sub_topic,
-            payload=json.dumps(msg),
-            qos=0)
-
-
-@blynk.VIRTUAL_WRITE(5)
-def control_pump_seconds(value):
-    logger.info(' V5: {}'.format(value[0]))
-    global pump_seconds
-    # Acende ou apaga o led vermelho, dependendo
-    # do valor recebido
-    pump_seconds = value[0]
-
-
-@blynk.VIRTUAL_WRITE(6)
-def control_servo(value):
-    logger.info(' V6: {}'.format(value[0]))
-    msg = {'value': value[0]}
-
-    client.publish(
-        topic=Servo.sub_topic,
-        payload=json.dumps(msg),
-        qos=0)
+# @blynk.VIRTUAL_WRITE(3)
+# def control_grow_led(value):
+#     """
+#     Controls the grow led
+#     """
+#     logger.info(' V3: {}'.format(value[0]))
+#
+#     if value[0] >= "1":
+#         msg = {"value": "255"}
+#         print('GROW LED ON')
+#     else:
+#         msg = {"value": "0"}
+#         print('GROW LED OFF')
+#
+#     client.publish(
+#         topic=GrowLed.sub_topic,
+#         payload=json.dumps(msg),
+#         qos=0)
+#
+# @blynk.VIRTUAL_WRITE(4)
+# def control_pump2(value):
+#     """
+#     Control bottom pump
+#     """
+#     logger.info(' V4: {}'.format(value[0]))
+#     if value[0] >= "1":
+#         msg = {'value': pump_seconds}
+#
+#         client.publish(
+#             topic=Pump2.sub_topic,
+#             payload=json.dumps(msg),
+#             qos=0)
+#
+#
+# @blynk.VIRTUAL_WRITE(5)
+# def control_pump_seconds(value):
+#     logger.info(' V5: {}'.format(value[0]))
+#     global pump_seconds
+#     # Acende ou apaga o led vermelho, dependendo
+#     # do valor recebido
+#     pump_seconds = value[0]
+#
+#
+# @blynk.VIRTUAL_WRITE(6)
+# def control_servo(value):
+#     logger.info(' V6: {}'.format(value[0]))
+#     msg = {'value': value[0]}
+#
+#     client.publish(
+#         topic=Servo.sub_topic,
+#         payload=json.dumps(msg),
+#         qos=0)
 
 
 def send_hum_temp(value):
