@@ -16,7 +16,7 @@ import logging
 
 SUB_TOPICS = [('sensors/#', 1)]
 
-logging.getLogger('BlynkLog').setLevel(logging.WARNING)
+logging.getLogger('BlynkLog').setLevel(logging.DEBUG)
 logger = new_logger(name=BLYNK_CLIENT_NAME, extra_handlers=["BlynkLog"])
 
 GPIO.setmode(GPIO.BCM)
