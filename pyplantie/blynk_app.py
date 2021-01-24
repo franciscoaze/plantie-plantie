@@ -13,7 +13,7 @@ import logging
 
 SUB_TOPICS = [('sensors/#', 1)]
 
-logging.getLogger('BlynkLog').setLevel(logging.DEBUG)
+# logging.getLogger('BlynkLog').setLevel(logging.DEBUG)
 logger = new_logger(name=BLYNK_CLIENT_NAME, extra_handlers=["BlynkLog"])
 
 blynk = blynklib.Blynk('2p5G4h1wANysfVDWthWi71DorXeAByTG')
