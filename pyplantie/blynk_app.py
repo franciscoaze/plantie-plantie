@@ -3,7 +3,7 @@ import RPi.GPIO as GPIO
 from gpiozero import CPUTemperature
 import requests
 import time
-from pyplantie.utils.constants import BROKER_ADDRESS, VIDEO_URL, BLYNK_CLIENT_NAME
+from pyplantie.utils.constants import BROKER_ADDRESS, VIDEO_URL, BLYNK_CLIENT_NAME, BLYNK_SERVER_HOST, BLYNK_SERVER_PORT
 import paho.mqtt.client as mqtt
 import json
 
@@ -21,7 +21,7 @@ logger = new_logger(name=BLYNK_CLIENT_NAME, extra_handlers=["BlynkLog"])
 
 GPIO.setmode(GPIO.BCM)
 
-blynk = BlynkLib.Blynk('dEI_FInM4Af6bjoJ2hDQOvFPLQvSxQpU', server='127.0.1.1', port=8080)
+blynk = BlynkLib.Blynk('dEI_FInM4Af6bjoJ2hDQOvFPLQvSxQpU', server=BLYNK_SERVER_HOST, port=BLYNK_SERVER_PORT)
 pump_seconds = 1
 
 
