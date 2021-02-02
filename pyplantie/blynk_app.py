@@ -77,10 +77,8 @@ def control_grow_led(value):
 
     if value[0] >= "1":
         msg = {"value": "255"}
-        print('GROW LED ON')
     else:
         msg = {"value": "0"}
-        print('GROW LED OFF')
 
     client.publish(
         topic=GrowLed.sub_topic,
@@ -106,8 +104,6 @@ def control_pump2(value):
 def control_pump_seconds(value):
     logger.info(' V5: {}'.format(value[0]))
     global pump_seconds
-    # Acende ou apaga o led vermelho, dependendo
-    # do valor recebido
     pump_seconds = value[0]
 
 
@@ -121,6 +117,19 @@ def control_servo(value):
         payload=json.dumps(msg),
         qos=0)
 
+@blynk.VIRTUAL_WRITE(9)
+def control_pump1(value):
+    """
+    Control bottom pump
+    """
+    logger.info(' V9: {}'.format(value[0]))
+    if value[0] >= "1":
+        msg = {'value': pump_seconds}
+
+        client.publish(
+            topic=Pump1.sub_topic,
+            payload=json.dumps(msg),
+            qos=0)
 
 def send_hum_temp(value):
     """

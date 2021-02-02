@@ -3,7 +3,6 @@ import psycopg2
 import urllib.parse as up
 from configuration.vars import DATABASE_URL
 
-
 def insert_log(new_log):
     try:
         up.uses_netloc.append("postgres")
