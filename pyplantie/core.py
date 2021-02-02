@@ -12,7 +12,7 @@ from apscheduler.events import EVENT_JOB_EXECUTED, EVENT_JOB_ERROR
 from apscheduler.schedulers.background import BlockingScheduler
 import logging
 import importlib, inspect
-from pyplantie.utils.constants import JOBS_DEF_FILE, CORE_CLIENT_NAME, BROKER_ADDRESS, DB_WATCHER_MIN
+from pyplantie.utils.constants import JOBS_DEF_FILE, CORE_CLIENT_NAME, BROKER_ADDRESS, DB_WATCHER_MIN, SQL_DEBUG_LEVEL
 import paho.mqtt.client as mqtt
 from pyplantie.utils.mylogger import new_logger
 import json
@@ -20,7 +20,7 @@ from pyplantie.utils.sql_client import ElephantSQL
 import pendulum
 
 logging.getLogger('apscheduler').setLevel(logging.WARNING)
-logging.getLogger('SQL-CLIENT').setLevel(logging.DEBUG)
+logging.getLogger('SQL-CLIENT').setLevel(SQL_DEBUG_LEVEL)
 
 
 class Core:

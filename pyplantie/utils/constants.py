@@ -5,6 +5,7 @@ DATABASE_URL = os.getenv("DATABASE_URL", r"postgres://kquyqdfq:2C8rvf7n_45OmkluD
 LOG_FILE = os.getenv("LOG_FILE", "logs/system_activity.log")
 PUMP_SECONDS = os.getenv("PUMP_SECONDS", 3)
 DB_WATCHER_MIN = os.getenv("DB_WATCHER_MIN", 1)
+SQL_DEBUG_LEVEL = os.getenv("SQL_DEBUG_LEVEL", 20)
 
 BROKER_ADDRESS = os.getenv("BROKER_ADDRESS", "192.168.1.80")
 
