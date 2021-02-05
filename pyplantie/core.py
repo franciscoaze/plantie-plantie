@@ -15,10 +15,11 @@ import importlib, inspect
 from pyplantie.utils.constants import JOBS_DEF_FILE, CORE_CLIENT_NAME, BROKER_ADDRESS, DB_WATCHER_MIN, SQL_DEBUG_LEVEL
 import paho.mqtt.client as mqtt
 from pyplantie.utils.mylogger import new_logger
+from pyplantie.utils.mqtt_client import MQTTClient
 import json
 from pyplantie.utils.sql_client import ElephantSQL
 import pendulum
-
+import threading
 logging.getLogger('apscheduler').setLevel(logging.WARNING)
 logging.getLogger('SQL-CLIENT').setLevel(SQL_DEBUG_LEVEL)
 
@@ -29,10 +30,9 @@ class Core:
     db_client = None
 
     def __init__(self):
-        self.logger = new_logger(name=CORE_CLIENT_NAME, extra_handlers=['apscheduler','SQL-CLIENT'])
+        self.logger = new_logger(name=CORE_CLIENT_NAME, extra_handlers=['apscheduler', 'SQL-CLIENT'])
 
-        self.client = mqtt.Client(CORE_CLIENT_NAME)
-        self.client.connect(BROKER_ADDRESS)
+        self.mqtt_client = MQTTClient(CORE_CLIENT_NAME)
 
         try:
             self.db_client = ElephantSQL()
@@ -46,17 +46,21 @@ class Core:
 
         self.add_jobs()
 
-        watcher = self.scheduler.add_job(
-            self.update_jobs_from_db,
-            trigger="cron",
-            id='db_watcher',
-            args=[self, self.db_client, self.logger],
-            minute=f'*/{DB_WATCHER_MIN}',
-        )
+        # watcher = self.scheduler.add_job(
+        #     self.update_jobs_from_db,
+        #     trigger="cron",
+        #     id='db_watcher',
+        #     args=[self, self.db_client, self.logger],
+        #     minute=f'*/{DB_WATCHER_MIN}',
+        # )
 
     def start(self):
-        self.scheduler.start()
-        self.client.loop_forever()
+        a = threading.Thread(target=self.scheduler.start)
+        b = threading.Thread(target=self.mqtt_client.cli.loop_forever)
+        a.start()
+        b.start()
+        return a, b
+
 
     @staticmethod
     def job_func(client, job_info, logger):
@@ -75,7 +79,7 @@ class Core:
                 self.job_func,
                 trigger=job_info.trigger,
                 id=job_info.id,
-                args=[self.client, job_info, self.logger],
+                args=[self.mqtt_client.cli, job_info, self.logger],
                 **job_info.trigger_args,
             )
 
@@ -111,4 +115,3 @@ class Core:
 if __name__ == '__main__':
     app = Core()
     app.start()
-    app.update_jobs_from_db()

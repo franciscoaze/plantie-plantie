@@ -5,7 +5,6 @@ from pyplantie.utils.constants import DATABASE_URL, TABLE_MODELS_FILE
 from pyplantie.utils.mylogger import new_logger
 import importlib
 import inspect
-import logging
 import pendulum
 
 
@@ -13,7 +12,7 @@ class ElephantSQL:
 
     def __init__(self, database=DATABASE_URL, logger=None):
         if not logger:
-            self.logger = new_logger(name='SQL-CLIENT', level=logging.DEBUG, extra_handlers=['sql_debug'])
+            self.logger = new_logger(name='SQL-CLIENT', extra_handlers=['sql_debug'])
         else:
             self.logger = logger
         self.logger.debug(database)
