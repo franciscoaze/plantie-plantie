@@ -46,13 +46,13 @@ class Core:
 
         self.add_jobs()
 
-        # watcher = self.scheduler.add_job(
-        #     self.update_jobs_from_db,
-        #     trigger="cron",
-        #     id='db_watcher',
-        #     args=[self, self.db_client, self.logger],
-        #     minute=f'*/{DB_WATCHER_MIN}',
-        # )
+        watcher = self.scheduler.add_job(
+            self.update_jobs_from_db,
+            trigger="cron",
+            id='db_watcher',
+            args=[self, self.db_client, self.logger],
+            minute=f'*/{DB_WATCHER_MIN}',
+        )
 
     def start(self):
         a = threading.Thread(target=self.scheduler.start)
