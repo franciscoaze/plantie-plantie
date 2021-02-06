@@ -93,7 +93,7 @@ class Core:
                 "name_id": job_info.id,
                 "trigger_args": json.dumps(job_info.trigger_args),
                 "value": job_info.value,
-                "value_legend": job_info.value_legend
+                "value_legend": job_info.value_legend,
                 'trigger': job_info.trigger
             }
         )
