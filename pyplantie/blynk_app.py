@@ -224,7 +224,7 @@ def show_job(value):
             blynk.virtual_write(15, int(triggers.get('minutes')))
 
         blynk.set_property(14, "label", "N/A")
-        blynk.virtual_write(14, 0, 0, 'Europe/Lisbon', "")
+        blynk.virtual_write(14, 60, 60, 'Europe/Lisbon', "1,2,3,4,5,6,7")
         blynk.set_property(15, 'label', job_name)
         blynk.virtual_write(16, 0)
         blynk.virtual_write(17, 255)
@@ -238,9 +238,10 @@ def triggers_to_timer(triggers):
     else:
         days = '1,2,3,4,5,6,7'
 
-    start = int(triggers.get('hour', 0)) * 60 * 60 + int(triggers.get('minute', 0))* 60
+    start = int(triggers.get('hour', 0)) * 60 * 60 + int(triggers.get('minute', 0)) * 60
     logger.info(f'Start value is {start}')
     return start, tz, days
+
 
 def on_start():
     global menu_labels
@@ -248,7 +249,6 @@ def on_start():
     results = db_client.get_data(table='JOBS')
     menu_labels = [res[NAME] for res in results]
     blynk.set_property(13, "labels", *menu_labels)
-
 
 
 client = mqtt.Client(BLYNK_CLIENT_NAME)
