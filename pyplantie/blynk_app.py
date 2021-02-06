@@ -212,8 +212,8 @@ def triggers_to_timer(triggers):
     tz = 'Europe/Lisbon'
     days = triggers.get('day_of_week', '1,2,3,4,5,6,7')
 
-    start = triggers.get('hour', 0) * 60 + triggers.get('minute', 0)
-
+    start = int(triggers.get('hour', 0)) * 60 + int(triggers.get('minute', 0))
+    logger.info(f'Start value is {start}')
     return start, tz, days
 
 def on_start():
