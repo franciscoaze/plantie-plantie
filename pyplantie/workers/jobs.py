@@ -33,9 +33,9 @@ class PumpTop(_Job):
 class PumpBottom(_Job):
     id = "pump2"
     trigger = "cron"
-    trigger_args = {"day_of_week": '2,5', 'hour': '10'}
+    trigger_args = {"day_of_week": "2,5", "hour": "15", "minute": "36"}
     topic = "actions/pump2"
-    value = 40
+    value = '40'
     value_legend = "sec"
 
 
