@@ -185,7 +185,7 @@ def update_table(value):
             blynk.virtual_write(12, 'add', idx, name_id, value)
 
             idx += 1
-        blynk.setProperty(13, "labels", *[res[NAME] for res in results])
+        blynk.set_property(13, "labels", *[res[NAME] for res in results])
 
 
 client = mqtt.Client(BLYNK_CLIENT_NAME)
