@@ -170,7 +170,7 @@ def update_table(value):
     """
     Button to update table
     """
-    logger.info(' V11: {}'.format(value[0]))
+    logger.info(' V10: {}'.format(value[0]))
     if value[0] >= "1":
         results = db_client.get_data(table='JOBS')
         idx = 0
@@ -178,14 +178,20 @@ def update_table(value):
             name_id = res[NAME]
             trigger_args = res[TRIGGER]
             value = res[VALUE]
-
             # TABLE TRIGGER
             blynk.virtual_write(11, 'add', idx, name_id, trigger_args)
             # TABLE VALUE
             blynk.virtual_write(12, 'add', idx, name_id, value)
-
             idx += 1
+
         blynk.set_property(13, "labels", *[res[NAME] for res in results])
+
+
+@blynk.VIRTUAL_WRITE(13)
+def update_job(value):
+    logger.info(' V13: {}'.format(value))
+    blynk.set_property(13, "label", "changed")
+    # blynk.virtual_write(12, 'add', idx, name_id, value)
 
 
 client = mqtt.Client(BLYNK_CLIENT_NAME)
