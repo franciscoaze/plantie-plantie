@@ -227,8 +227,7 @@ def show_job(value):
         blynk.set_property(15, 'label', job_name)
         blynk.virtual_write(16, 0)
         blynk.virtual_write(17, 255)
-        blynk.set_property(14, 'min', 0)
-        blynk.set_property(14, 'max', 0)
+
 
 def triggers_to_timer(triggers):
     tz = 'Europe/Lisbon'
