@@ -196,7 +196,7 @@ def show_job(value):
     blynk.set_property(14, "label", menu_labels[int(value[0])-1])
     start = 21 * 60
     until = 22 * 60
-    blynk.virtual_write(13, start, until, 'Europe/Lisbon', "1,2")
+    blynk.virtual_write(13, start, until)
 
 
 def on_start():
