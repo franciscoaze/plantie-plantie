@@ -185,12 +185,12 @@ def update_table(value):
             blynk.virtual_write(12, 'add', idx, name_id, value)
 
             idx += 1
-
+        blynk.setProperty(13, "labels", *[res[NAME] for res in results])
 
 @blynk.on("connected")
 def connect_handler():
     print("Blynk is connected heyyy.")
-    blynk.setProperty(13, "labels", "Menu Item 1", "Menu Item 2", "Menu Item 3");
+
 
 
 client = mqtt.Client(BLYNK_CLIENT_NAME)
@@ -202,3 +202,4 @@ client.on_message = on_mqtt_message
 while True:
     client.loop_start()
     blynk.run()
+
