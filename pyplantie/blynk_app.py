@@ -187,11 +187,6 @@ def update_table(value):
             idx += 1
         blynk.setProperty(13, "labels", *[res[NAME] for res in results])
 
-@blynk.on("connected")
-def connect_handler():
-    print("Blynk is connected heyyy.")
-
-
 
 client = mqtt.Client(BLYNK_CLIENT_NAME)
 client.connect(BROKER_ADDRESS)
