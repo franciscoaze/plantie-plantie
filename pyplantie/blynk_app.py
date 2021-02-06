@@ -212,6 +212,7 @@ def show_job(value):
         blynk.set_property(15, 'label', "N/A")
         blynk.set_property(15, 'min', 0)
         blynk.set_property(15, 'max', 0)
+        blynk.virtual_write(15, 0)
         blynk.virtual_write(14, start, start, tz, days)
         blynk.virtual_write(16, 255)
         blynk.virtual_write(17, 0)
