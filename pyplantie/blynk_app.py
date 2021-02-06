@@ -224,7 +224,7 @@ def show_job(value):
             blynk.virtual_write(15, int(triggers.get('minutes')))
 
         blynk.set_property(14, "label", "N/A")
-        blynk.virtual_write(14, 60, 60, 'Europe/Lisbon', "1,2,3,4,5,6,7")
+        blynk.virtual_write(14, 60, 60, 'Europe/Lisbon', "")
         blynk.set_property(15, 'label', job_name)
         blynk.virtual_write(16, 0)
         blynk.virtual_write(17, 255)
