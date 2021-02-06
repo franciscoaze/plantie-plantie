@@ -195,7 +195,7 @@ def update_table(value):
 def update_job(value):
     global menu_labels
     logger.info(' V13: {}'.format(value))
-    blynk.set_property(14, "label", menu_labels[value[0]])
+    blynk.set_property(14, "label", menu_labels[int(value[0])])
     # blynk.virtual_write(12, 'add', idx, name_id, value)
 
 
