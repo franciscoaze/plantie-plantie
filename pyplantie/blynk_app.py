@@ -21,6 +21,7 @@ logger = new_logger(name=BLYNK_CLIENT_NAME, extra_handlers=["BlynkLog"])
 blynk = BlynkLib.Blynk(BLYNK_AUTH)
 pump_seconds = 1
 
+menu_labels =[]
 
 @blynk.VIRTUAL_WRITE(1)
 def control_led(value):
@@ -170,6 +171,8 @@ def update_table(value):
     """
     Button to update table
     """
+    global menu_labels
+
     logger.info(' V10: {}'.format(value[0]))
     if value[0] >= "1":
         results = db_client.get_data(table='JOBS')
@@ -184,13 +187,15 @@ def update_table(value):
             blynk.virtual_write(12, 'add', idx, name_id, value)
             idx += 1
 
-        blynk.set_property(13, "labels", *[res[NAME] for res in results])
+        menu_labels = [res[NAME] for res in results]
+        blynk.set_property(13, "labels", *)
 
 
 @blynk.VIRTUAL_WRITE(13)
 def update_job(value):
+    global menu_labels
     logger.info(' V13: {}'.format(value))
-    blynk.set_property(13, "label", "changed")
+    blynk.set_property(14, "label", menu_labels[value[0]])
     # blynk.virtual_write(12, 'add', idx, name_id, value)
 
 
