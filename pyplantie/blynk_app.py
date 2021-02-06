@@ -162,7 +162,7 @@ def update_table(value):
             blynk.virtual_write(10, 'clr')
             id_val=0
         else:
-            blynk.virtual_write(10, 'add', id_val, "Name", "Value")
+            blynk.virtual_write(10, 'add', id_val, "Name", "Value","other")
             blynk.virtual_write(10, 'pick', id_val)
             id_val += 1
 
