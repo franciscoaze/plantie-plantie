@@ -206,12 +206,13 @@ def show_job(value):
 
     triggers = json.loads(result[TRIGGER])
     duration = result[VALUE]
-    duration = result[MODE]
-    if 'hour' in triggers:
+    trigger_mode = result[MODE]
+    if trigger_mode == 'cron':
         start, tz, days = triggers_to_timer(triggers)
-
-    blynk.virtual_write(14, start, start, tz, days)
-    blynk.set_property(15, "color", "#000000")
+        blynk.virtual_write(14, start, start, tz, days)
+        blynk.set_property(15, "color", "#000000")
+    elif trigger_mode == 'interval':
+        blynk.virtual_write(14, 0, 0)
 
 def triggers_to_timer(triggers):
     tz = 'Europe/Lisbon'
