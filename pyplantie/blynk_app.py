@@ -191,13 +191,30 @@ def update_table(value):
 
 @blynk.VIRTUAL_WRITE(13)
 def show_job(value):
+    """
+    activates when user chooses a menu option
+    """
     global menu_labels
     logger.info(' V13: {}'.format(value))
-    blynk.set_property(14, "label", menu_labels[int(value[0])-1])
-    start = 21 * 60
-    until = 22 * 60
-    blynk.virtual_write(14, start, until, 'Europe/Lisbon', "1,2")
+    job_name = menu_labels[int(value[0])-1]
+    blynk.set_property(14, "label", job_name)
+    result = db_client.get_data(
+        table='JOBS',
+        where_filter={"name_id=": job_name})[0]
 
+    triggers = json.loads(result[TRIGGER])
+    duration = result[VALUE]
+
+    blynk.virtual_write(14, *triggers_to_timer(triggers))
+
+
+def triggers_to_timer(triggers):
+    tz = 'Europe/Lisbon'
+    days = triggers.get('day_of_week', '1,2,3,4,5,6,7')
+
+    start = triggers.get('hour', 0) * 60 + triggers.get('minute', 0)
+
+    return start, tz, days
 
 def on_start():
     global menu_labels
