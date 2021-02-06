@@ -42,7 +42,7 @@ class Core:
         except Exception as exc:
             self.logger.warning(exc)
 
-        self.job_defs = {name: cls() for name, cls in inspect.getmembers(importlib.import_module(JOBS_DEF_FILE), inspect.isclass) if not name.startswith('_')}
+        self.job_defs = {cls.id: cls() for name, cls in inspect.getmembers(importlib.import_module(JOBS_DEF_FILE), inspect.isclass) if not name.startswith('_')}
 
         self.add_jobs()
 
@@ -105,11 +105,22 @@ class Core:
         results = db_client.get_data(
             table='JOBS',
             where_filter={"update_time >=": pendulum.now().subtract(minutes=DB_WATCHER_MIN).isoformat()})
+
         for res in results:
             name_id = res[1]
             trigger_args = json.loads(res[2])
-            self.scheduler.reschedule_job(job_id=name_id, trigger='cron', **trigger_args)
-            logger.info(f'Rescheduled job {name_id} for {trigger_args}')
+            value = res[3]
+            if name_id in self.job_defs:
+                job_info = self.job_defs.get(name_id)
+                job_info.value = value
+                job_info.trigger_args = trigger_args
+                self.scheduler.modify_job(
+                    job_id=name_id,
+                    func=self.job_func,
+                    args=[self.mqtt_client.cli, job_info, self.logger],
+                )
+                self.scheduler.reschedule_job(job_id=name_id, trigger='cron', **trigger_args)
+                logger.info(f'Rescheduled job {name_id} for {job_info.trigger_args}, {job_info.value} {job_info.value_legend}.')
 
 
 if __name__ == '__main__':
