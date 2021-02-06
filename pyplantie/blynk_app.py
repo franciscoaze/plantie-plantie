@@ -206,7 +206,7 @@ def show_job(value):
     duration = result[VALUE]
     start, tz, days = triggers_to_timer(triggers)
     blynk.virtual_write(14, start, start, tz, days)
-
+    blynk.set_property(15, "color", "#000000")
 
 def triggers_to_timer(triggers):
     tz = 'Europe/Lisbon'
