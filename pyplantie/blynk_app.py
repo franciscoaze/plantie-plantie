@@ -164,8 +164,6 @@ db_client = ElephantSQL()
 NAME = 1
 TRIGGER = 2
 VALUE = 3
-
-
 @blynk.VIRTUAL_WRITE(10)
 def update_table(value):
     """
@@ -192,20 +190,24 @@ def update_table(value):
 
 
 @blynk.VIRTUAL_WRITE(13)
-def update_job(value):
+def show_job(value):
     global menu_labels
     logger.info(' V13: {}'.format(value))
-    blynk.set_property(14, "label", menu_labels[int(value[0])])
-    # blynk.virtual_write(12, 'add', idx, name_id, value)
+    blynk.set_property(14, "label", menu_labels[int(value[0])-1])
+    start = 21 * 60
+    until = 22 * 60
+    blynk.virtual_write(13, start, until, 'Europe/Lisbon', "1,2")
 
 
 def on_start():
     global menu_labels
 
+    update_table('1')
+
     results = db_client.get_data(table='JOBS')
     menu_labels = [res[NAME] for res in results]
     blynk.set_property(13, "labels", *menu_labels)
-    # blynk.set_property(14, "label", menu_labels[0])
+
 
 
 client = mqtt.Client(BLYNK_CLIENT_NAME)
