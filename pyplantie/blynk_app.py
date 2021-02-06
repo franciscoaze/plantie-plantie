@@ -199,6 +199,15 @@ def update_job(value):
     # blynk.virtual_write(12, 'add', idx, name_id, value)
 
 
+def on_start(blynk):
+    global menu_labels
+
+    results = db_client.get_data(table='JOBS')
+    menu_labels = [res[NAME] for res in results]
+    blynk.set_property(13, "labels", *menu_labels)
+    blynk.set_property(14, "label", menu_labels[0])
+
+
 client = mqtt.Client(BLYNK_CLIENT_NAME)
 client.connect(BROKER_ADDRESS)
 client.subscribe(SUB_TOPICS)
@@ -208,4 +217,4 @@ client.on_message = on_mqtt_message
 while True:
     client.loop_start()
     blynk.run()
-
+    on_start(blynk)
