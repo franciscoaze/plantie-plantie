@@ -199,7 +199,6 @@ def show_job(value):
     global menu_labels
     logger.info(' V13: {}'.format(value))
     job_name = menu_labels[int(value[0])-1]
-    blynk.set_property(14, "label", job_name)
     result = db_client.get_data(
         table='JOBS',
         where_filter={"name_id=": job_name})[0]
@@ -209,10 +208,22 @@ def show_job(value):
     trigger_mode = result[MODE]
     if trigger_mode == 'cron':
         start, tz, days = triggers_to_timer(triggers)
+        blynk.set_property(14, "label", job_name)
+        blynk.set_property(15, 'label', "N/A")
         blynk.virtual_write(14, start, start, tz, days)
-        blynk.set_property(15, "color", "#000000")
+        blynk.set_property(16, 255)
+        blynk.set_property(17, 0)
     elif trigger_mode == 'interval':
         blynk.virtual_write(14, 0, 0)
+        if 'hours' in triggers:
+            blynk.virtual_write(15, triggers.get('hours'))
+        elif 'minutes' in triggers:
+            blynk.virtual_write(15, triggers.get('hours'))
+
+        blynk.set_property(14, "label", "N/A")
+        blynk.set_property(15, 'label', job_name)
+        blynk.set_property(16, 0)
+        blynk.set_property(17, 255)
 
 def triggers_to_timer(triggers):
     tz = 'Europe/Lisbon'
