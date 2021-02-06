@@ -204,6 +204,7 @@ def show_job(value):
         where_filter={"name_id=": job_name})[0]
 
     triggers = json.loads(result[TRIGGER])
+    print('triggers')
     duration = result[VALUE]
     trigger_mode = result[MODE]
     if trigger_mode == 'cron':
@@ -216,8 +217,10 @@ def show_job(value):
     elif trigger_mode == 'interval':
         blynk.virtual_write(14, 0, 0)
         if 'hours' in triggers:
+            print('hours')
             blynk.virtual_write(15, int(triggers.get('hours')))
         elif 'minutes' in triggers:
+            print('minutes')
             blynk.virtual_write(15, int(triggers.get('hours')))
 
         blynk.set_property(14, "label", "N/A")
