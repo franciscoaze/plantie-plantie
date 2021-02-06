@@ -42,7 +42,7 @@ class PumpBottom(_Job):
 class BmeSensor(_Job):
     id = "bme_sensor"
     trigger = "interval"
-    trigger_args = {"minutes": '5'}
+    trigger_args = {"minutes": 5}
     topic = "sensors/requests/BME"
     value = "BME"
     value_legend = "type of sensor"
