@@ -232,7 +232,11 @@ def show_job(value):
 
 def triggers_to_timer(triggers):
     tz = 'Europe/Lisbon'
-    days = triggers.get('day_of_week', '1,2,3,4,5,6,7')
+    if triggers.get('day_of_week'):
+        _days = triggers.get('day_of_week', '1,2,3,4,5,6,7')
+        days = ','.join([str(int(i)+1) for i in _days.split(',')])
+    else:
+        days = '1,2,3,4,5,6,7'
 
     start = int(triggers.get('hour', 0)) * 60 * 60 + int(triggers.get('minute', 0))* 60
     logger.info(f'Start value is {start}')
