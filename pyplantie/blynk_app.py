@@ -147,13 +147,7 @@ def control_table(value):
     Control table widget
     """
     logger.info(' V9: {}'.format(value[0]))
-    if value[0] >= "1":
-        msg = {'value': pump_seconds}
 
-        client.publish(
-            topic=Pump1.sub_topic,
-            payload=json.dumps(msg),
-            qos=0)
 
 id_val = 0
 @blynk.VIRTUAL_WRITE(11)
@@ -162,10 +156,15 @@ def update_table(value):
     Button to update table
     """
     global id_val
-    logger.info(' V9: {}'.format(value[0]))
+    logger.info(' V11: {}'.format(value[0]))
     if value[0] >= "1":
-        blynk.virtual_write(10, 'add', id_val, "Name", "Value")
-        id_val += 1
+        if id_val == 5:
+            blynk.virtual_write(10, 'clr')
+            id_val=0
+        else:
+            blynk.virtual_write(10, 'add', id_val, "Name", "Value")
+            blynk.virtual_write(10, 'pick', id_val)
+            id_val += 1
 
 
 client = mqtt.Client(BLYNK_CLIENT_NAME)
