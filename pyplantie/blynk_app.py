@@ -188,7 +188,7 @@ def update_table(value):
             idx += 1
 
         menu_labels = [res[NAME] for res in results]
-        blynk.set_property(13, "labels", *)
+        blynk.set_property(13, "labels", *menu_labels)
 
 
 @blynk.VIRTUAL_WRITE(13)
