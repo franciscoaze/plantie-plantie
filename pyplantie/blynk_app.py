@@ -164,6 +164,8 @@ db_client = ElephantSQL()
 NAME = 1
 TRIGGER = 2
 VALUE = 3
+MODE = 5
+
 @blynk.VIRTUAL_WRITE(10)
 def update_table(value):
     """
@@ -204,7 +206,10 @@ def show_job(value):
 
     triggers = json.loads(result[TRIGGER])
     duration = result[VALUE]
-    start, tz, days = triggers_to_timer(triggers)
+    duration = result[MODE]
+    if 'hour' in triggers:
+        start, tz, days = triggers_to_timer(triggers)
+
     blynk.virtual_write(14, start, start, tz, days)
     blynk.set_property(15, "color", "#000000")
 

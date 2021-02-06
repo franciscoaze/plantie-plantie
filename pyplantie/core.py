@@ -94,6 +94,7 @@ class Core:
                 "trigger_args": json.dumps(job_info.trigger_args),
                 "value": job_info.value,
                 "value_legend": job_info.value_legend
+                'trigger': job_info.trigger
             }
         )
 
@@ -119,7 +120,7 @@ class Core:
                     func=self.job_func,
                     args=[self.mqtt_client.cli, job_info, self.logger],
                 )
-                self.scheduler.reschedule_job(job_id=name_id, trigger='cron', **trigger_args)
+                self.scheduler.reschedule_job(job_id=name_id, trigger=job_info.trigger, **trigger_args)
                 logger.info(f'Rescheduled job {name_id} for {job_info.trigger_args}, {job_info.value} {job_info.value_legend}.')
 
 
