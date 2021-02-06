@@ -218,13 +218,13 @@ def show_job(value):
         blynk.virtual_write(17, 0)
 
     elif trigger_mode == 'interval':
-        blynk.virtual_write(14, -1, -1, 'Europe/Lisbon',"")
         if 'hours' in triggers:
             blynk.virtual_write(15, int(triggers.get('hours')))
         elif 'minutes' in triggers:
             blynk.virtual_write(15, int(triggers.get('minutes')))
 
         blynk.set_property(14, "label", "N/A")
+        blynk.virtual_write(14, 0, 0, 'Europe/Lisbon', "")
         blynk.set_property(15, 'label', job_name)
         blynk.virtual_write(16, 0)
         blynk.virtual_write(17, 255)
