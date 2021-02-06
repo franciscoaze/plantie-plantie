@@ -204,8 +204,8 @@ def show_job(value):
 
     triggers = json.loads(result[TRIGGER])
     duration = result[VALUE]
-
-    blynk.virtual_write(14, *triggers_to_timer(triggers))
+    start, tz, days = triggers_to_timer(triggers)
+    blynk.virtual_write(14, start, tz, days)
 
 
 def triggers_to_timer(triggers):
