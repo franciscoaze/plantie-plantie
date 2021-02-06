@@ -202,8 +202,6 @@ def show_job(value):
 def on_start():
     global menu_labels
 
-    update_table('1')
-
     results = db_client.get_data(table='JOBS')
     menu_labels = [res[NAME] for res in results]
     blynk.set_property(13, "labels", *menu_labels)
