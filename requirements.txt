@@ -13,7 +13,7 @@ ipython-genutils==0.2.0
 iso8601==0.1.13
 itsdangerous==1.1.0
 jedi==0.18.0
-Jinja2==2.11.2
+Jinja2==2.11.3
 MarkupSafe==1.1.1
 numpy==1.19.4
 opencv-python==4.4.0.46
