@@ -24,7 +24,7 @@ prompt-toolkit==3.0.10
 psycopg2==2.8.5
 Pygments==2.7.4
 pyserial==3.5
-PyYAML==5.3.1
+PyYAML==5.4
 requests==2.24.0
 serial==0.0.97
 traitlets==5.0.5
