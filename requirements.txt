@@ -28,6 +28,6 @@ PyYAML==5.3.1
 requests==2.24.0
 serial==0.0.97
 traitlets==5.0.5
-urllib3==1.25.9
+urllib3==1.26.5
 wcwidth==0.2.5
 Werkzeug==1.0.1
