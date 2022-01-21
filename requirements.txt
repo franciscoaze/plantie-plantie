@@ -8,7 +8,7 @@ Flask==1.1.2
 future==0.18.2
 idna==2.10
 imutils==0.5.3
-ipython==7.19.0
+ipython==7.31.1
 ipython-genutils==0.2.0
 iso8601==0.1.13
 itsdangerous==1.1.0
